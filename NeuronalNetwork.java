@@ -13,7 +13,7 @@ public class NeuronalNetwork
 
     /**
      * create the Neuronal network with the given structure
-     * @param structure network structure (e.g. {2,3,4,5}) (max length 5?? weil setWeights[][][]???)
+     * @param structure network structure (e.g. {2,3,4,5})
      */
     public void create(int[] structure)
     {
@@ -21,9 +21,14 @@ public class NeuronalNetwork
 
         for(int i = 0; i < structure.length; i++)
         {
-            cells[i] = new Neuron[structure[i]];
+            int neuronCount = structure[i];
 
-            for(int j = 0; j < structure[i]; j++)
+            if(i < structure.length-1) //Do not add Bias neuron on last layer
+                neuronCount++; //Add 1 for Bias neuron
+
+            cells[i] = new Neuron[neuronCount];
+
+            for(int j = 0; j < neuronCount; j++)
                 cells[i][j] = new Neuron();
         }
 
@@ -40,7 +45,7 @@ public class NeuronalNetwork
 
          for(int i = 0; i < layers -1; i++)
          {
-             int neurons = structure[i] +1; //+1 für BIAS neuron
+             int neurons = structure[i] +1; //+1 for BIAS neuron
              weights[i] = new double[neurons][];
 
              for(int j = 0; j < neurons; j++)
@@ -125,7 +130,7 @@ public class NeuronalNetwork
             }
         }
 
-        return results[results.length];
+        return results[results.length-1];
     }
 
     /**
