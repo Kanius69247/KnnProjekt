@@ -111,12 +111,12 @@ public class NeuronalNetwork
         }
 
         //Compute Layer 1 (second) to end
-        for(int i = 0; i < cells.length-1; i++)//iterate trough layers
+        for(int i = 0; i < cells.length-1; i++)//iterate layers
         {
-            for(int j = 0; j < cells[i+1].length; j++)//iterate trough neurons of the layer
+            for(int j = 0; j < cells[i+1].length; j++)//iterate neurons of the layer
             {
                 double sum = 0;
-                for (int k = 0; k < cells[i].length; k++)//iterate trough the weights
+                for (int k = 0; k < cells[i].length; k++)//iterate the weights
                 {
                     sum += results[i][k] * weights[i][k][j];
                 }
