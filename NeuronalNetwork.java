@@ -10,7 +10,6 @@ public class NeuronalNetwork
     //[Layer] [Neuronen im Layer] [Neuronen im darauffolgenden Layer]
     double[][][] weights = new double[0][][];
 
-
     /**
      * create the Neuronal network with the given structure
      * @param structure network structure (e.g. {2,3,4,5})

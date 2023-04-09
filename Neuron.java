@@ -22,15 +22,23 @@ public class Neuron
         {
             case "stepfun":
                 //compute something
-                result = input;
+                result = perceptionStepfun(input);
                 break;
 
             case "indentfun":
-                result = input; //compute something
+                result = id(input); //compute something
+                break;
+
+            case "tanh":
+                result = tanh(input);
+                break;
+
+            case "logistic":
+                result = logistic(input);
                 break;
         }
 
-        if(result > threshold) //keine ahnung ob das stimmt
+        if(result > threshold) //is Threshold only for perception stepfun?
             return 1.0;
         else
             return 0.0;
@@ -59,7 +67,7 @@ public class Neuron
     @Override
     public String toString()
     {
-        return "unit: "+ unitType + ", ";
+        return "unit: "+ unitType + ", Threshold: " + threshold;
     }
 
     private double id(double id)
@@ -67,9 +75,14 @@ public class Neuron
         return 0.0;
     }
 
-    private double logistic(double a)
+    private double logistic(double input)
     {
-        return 0.0;
+        return 0.0; 
+    }
+
+    private double tanh(double input)
+    {
+        return Math.tanh(input);
     }
 
     private double perceptionStepfun(double data)
