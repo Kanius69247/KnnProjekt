@@ -6,9 +6,15 @@ import java.util.Random;
 public class NeuronalNetwork
 {
     Neuron[][] cells = new Neuron[0][];
-
     //[Layer] [Neuronen im Layer] [Neuronen im darauffolgenden Layer]
     double[][][] weights = new double[0][][];
+    boolean useBias;
+    int[] structure;
+
+    public NeuronalNetwork() {
+        useBias = true;
+    }
+
 
     /**
      * create the Neuronal network with the given structure
@@ -16,8 +22,16 @@ public class NeuronalNetwork
      */
     public void create(int[] structure)
     {
-        cells = new Neuron[structure.length][];
+        createNetworkStructure(structure);
+        this.structure = structure;
+    }
 
+    public void setUseBias(boolean bias){
+        this.useBias = bias;
+    }
+
+    private void createNetworkStructure(int[] structure){
+        cells = new Neuron[structure.length][];
         for(int i = 0; i < structure.length; i++)
         {
             int neuronCount = structure[i];
@@ -31,7 +45,11 @@ public class NeuronalNetwork
                 cells[i][j] = new Neuron();
         }
 
-        createRandomWeights(structure, true);
+        createRandomWeights(structure, useBias);
+    }
+
+    public void initializeRandomWeights(){
+        createNetworkStructure(structure);
     }
 
     private void createRandomWeights(int[] structure, boolean useBias)
@@ -69,6 +87,23 @@ public class NeuronalNetwork
     }
 
     /**
+     * Set the cells
+     * @param cells [ Layer ] [ Neuronen im Layer ]
+     */
+
+    public void setCells(Neuron[][] cells){
+        this.cells = cells;
+    }
+
+    /**
+     * Retrieves the cells used in the neuronal network
+     * @return cells
+     */
+    public Neuron[][] getCells() {
+        return cells;
+    }
+
+    /**
      * Set the weights
      * @param weights [ Layer ] [ Neuronen im Layer ] [ Neuronen im darauffolgenden Layer ]
      */
@@ -93,6 +128,11 @@ public class NeuronalNetwork
      * @param function
      * @param threshold
      */
+
+    public void setUnitType(int layer, int neuron, String function)
+    {
+        cells[layer][neuron].setUnitType(function);
+    }
     public void setUnitType(int layer, int neuron, String function, double threshold)
     {
         cells[layer][neuron].setUnitType(function, threshold);
@@ -170,4 +210,5 @@ public class NeuronalNetwork
 
         return result;
     }
+
 }

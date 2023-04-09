@@ -17,9 +17,13 @@ public class Main
 		int[] strukturAND = {2,1}; // BIAS-Neuron intern verwaltet
  		nn.create( strukturAND );		
  		double [][][] w = nn.getWeights();
- 		
- 		nn.setUnitType(1, 0, "stepfun", 1.5);
- 		
+
+
+		nn.setUnitType(1, 1, "logistic");
+		nn.setUnitType(1, 0, "stepfun", 1.5);
+
+		nn.initializeRandomWeights();
+
  		w[0][0][0] = 1.0;
  		w[0][1][0] = 1.0;
  		w[0][2][0] = 0.0; //BIAS-Neuron 'deaktivieren'

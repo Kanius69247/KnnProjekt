@@ -27,13 +27,13 @@ public class Neuron
             case "logistic":
                 result = logistic(input);
                 break;
-            case "tanh";
+            case "tanh":
                 result = tanh(input);
                 break;
-            case "heaviside";
+            case "heaviside":
                 result = heaviside(input);
                 break;
-            case "perceptronStepfun";
+            case "perceptronStepfun":
                 result = perceptronStepfun(input);
                 break;
         }
@@ -49,8 +49,8 @@ public class Neuron
     {
         String[] activateFun = {"id", "logistic", "tanh", "heaviside", "perceptronStepfun"};
         boolean found = false;
-        for (String s : array) {
-            if (s.contains(target)) {
+        for (String s : activateFun) {
+            if (s.contains(unitType)) {
                 found = true;
                 break;
             }
