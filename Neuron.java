@@ -6,7 +6,8 @@ public class Neuron
 
     public Neuron()
     {
-        unitType = "indentfun"; //default value should be identity function
+        unitType = "id"; //default value should be identity function
+        threshold = 0.0;
     }
 
     /**
@@ -20,28 +21,24 @@ public class Neuron
 
         switch(unitType)
         {
-            case "stepfun":
-                //compute something
-                result = perceptionStepfun(input);
+            case "id":
+                result = id(input);
                 break;
-
-            case "indentfun":
-                result = id(input); //compute something
-                break;
-
-            case "tanh":
-                result = tanh(input);
-                break;
-
             case "logistic":
                 result = logistic(input);
                 break;
+            case "tanh";
+                result = tanh(input);
+                break;
+            case "heaviside";
+                result = heaviside(input);
+                break;
+            case "perceptronStepfun";
+                result = perceptronStepfun(input);
+                break;
         }
 
-        if(result > threshold) //is Threshold only for perception stepfun?
-            return 1.0;
-        else
-            return 0.0;
+        return result;
     }
 
     /**
@@ -50,6 +47,17 @@ public class Neuron
      */
     public void setUnitType(String unitType)
     {
+        String[] activateFun = {"id", "logistic", "tanh", "heaviside", "perceptronStepfun"};
+        boolean found = false;
+        for (String s : array) {
+            if (s.contains(target)) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            throw new IllegalArgumentException("Invalid type of activate function!\n(Vaild ption: id, logistic, tanh, heaviside, perceptronStepfun");
+        }
         this.unitType = unitType;
     }
 
@@ -60,34 +68,46 @@ public class Neuron
      */
     public void setUnitType(String unitType, double threshold)
     {
-        this.unitType = unitType;
+        setUnitType(unitType);
         this.threshold = threshold;
     }
 
     @Override
     public String toString()
     {
-        return "unit: "+ unitType + ", Threshold: " + threshold;
+        return "unit: "+ unitType + ", ";
     }
 
-    private double id(double id)
+    private double id(double x)
     {
-        return 0.0;
+        return x;
     }
 
-    private double logistic(double input)
-    {
-        return 0.0; 
+    private double logistic(double x) {
+        return 1 / (1 + Math.exp(-x));
     }
 
-    private double tanh(double input)
-    {
-        return Math.tanh(input);
+    private double tanh(double x) {
+        return Math.tanh(x);
     }
 
-    private double perceptionStepfun(double data)
+    public double heaviside(double x) {
+        if (x < threshold) {
+            return 0.0;
+        } else if (x == threshold) {
+            return 0.5;
+        } else {
+            return 1.0;
+        }
+    }
+
+    private double perceptronStepfun(double x)
     {
-        return 0.0;
+        if (x<=threshold){
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
 }
