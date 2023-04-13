@@ -126,9 +126,7 @@ public class NeuronalNetwork
      * @param layer
      * @param neuron
      * @param function
-     * @param threshold
      */
-
     public void setUnitType(int layer, int neuron, String function)
     {
         cells[layer][neuron].setUnitType(function);
@@ -145,10 +143,10 @@ public class NeuronalNetwork
      */
     public double[] compute(double[] data)
     {
-        double[][] results = new double[cells.length][];
+        double[][] results = new double[cells.length+1][];
 
         //fill in input data
-        for(int i = 0; i < cells[0].length; i++)
+        for(int i = 0; i < data.length; i++)
         {
             results[i] = new double[cells[i].length];
             results[0][i] = cells[0][i].compute(data[i]);
