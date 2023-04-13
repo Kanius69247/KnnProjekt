@@ -19,7 +19,7 @@ public class Main
  		double [][][] w = nn.getWeights();
 
 		nn.setUnitType(1, 0, "logistic");
-		nn.setUnitType(1, 0, "perceptronStepfun", 1.5);
+		nn.setUnitType(1, 0, "stepfun", 1.5);
 
 		nn.initializeRandomWeights();
 

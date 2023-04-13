@@ -47,7 +47,7 @@ public class Neuron
      */
     public void setUnitType(String unitType)
     {
-        String[] activateFun = {"id", "logistic", "tanh", "heaviside", "perceptronStepfun"};
+        String[] activateFun = {"id", "logistic", "tanh", "heaviside", "stepfun"};
         boolean found = false;
         for (String s : activateFun) {
             if (s.contains(unitType)) {
