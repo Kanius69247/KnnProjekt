@@ -143,7 +143,7 @@ public class NeuronalNetwork
      */
     public double[] compute(double[] data)
     {
-        double[][] results = new double[cells.length+1][];
+        double[][] results = new double[cells.length][];
 
         //fill in input data
         for(int i = 0; i < data.length; i++)

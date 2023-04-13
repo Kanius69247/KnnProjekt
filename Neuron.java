@@ -33,7 +33,7 @@ public class Neuron
             case "heaviside":
                 result = heaviside(input);
                 break;
-            case "perceptronStepfun":
+            case "stepfun":
                 result = perceptronStepfun(input);
                 break;
         }
