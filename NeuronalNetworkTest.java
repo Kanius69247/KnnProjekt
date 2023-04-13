@@ -7,19 +7,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NeuronalNetworkTest {
     private static NeuronalNetwork nn;
-    private static int[] strukturOR;
+    private static int[] structureOR;
     private static double [][][] w;
 
     @BeforeEach
     public void setUp() {
         nn = new NeuronalNetwork();
-        strukturOR = new int[]{2, 1};
-        nn.create( strukturOR );
+        structureOR = new int[]{2, 1};
+        nn.create( structureOR );
         w = nn.getWeights();
 
         w[0][0][0] = 1.0;
         w[0][1][0] = 1.0;
-        w[0][2][0] = 0.0; //BIAS-Neuron 'deaktivieren'
+        w[0][2][0] = 0.0; //deactivate BIAS Neuron
 
         nn.setWeights(w);
         nn.setUnitType(1, 0, "stepfun", 0.5);
@@ -56,7 +56,7 @@ public class NeuronalNetworkTest {
     @AfterEach
     public void tearDown() {
         nn = null;
-        int[] strukturOR = null;
+        int[] structureOR = null;
         w = null;
     }
 }
