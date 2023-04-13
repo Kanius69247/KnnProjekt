@@ -1,6 +1,8 @@
+package Tests;
+
+import NeuronalNetwork.NeuronalNetwork;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,7 +21,7 @@ public class NeuronalNetworkTest {
 
         w[0][0][0] = 1.0;
         w[0][1][0] = 1.0;
-        w[0][2][0] = 0.0; //deactivate BIAS Neuron
+        w[0][2][0] = 0.0; //deactivate BIAS NeuronalNetwork.Neuron
 
         nn.setWeights(w);
         nn.setUnitType(1, 0, "stepfun", 0.5);

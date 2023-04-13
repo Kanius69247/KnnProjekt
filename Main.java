@@ -1,3 +1,4 @@
+import NeuronalNetwork.NeuronalNetwork;
 
 public class Main
 {
@@ -14,7 +15,7 @@ public class Main
  		System.out.println( nn ); 
  		// toString soll Netzkonfiguration (Ebenenstruktur und Gewichte) ausgeben
  		
-		int[] strukturAND = {2,1}; // BIAS-Neuron intern verwaltet
+		int[] strukturAND = {2,1}; // BIAS-NeuronalNetwork.Neuron intern verwaltet
  		nn.create( strukturAND );		
  		double [][][] w = nn.getWeights();
 
@@ -25,7 +26,7 @@ public class Main
 
  		w[0][0][0] = 1.0;
  		w[0][1][0] = 1.0;
- 		w[0][2][0] = 0.0; //BIAS-Neuron 'deaktivieren'
+ 		w[0][2][0] = 0.0; //BIAS-NeuronalNetwork.Neuron 'deaktivieren'
  		
  		nn.setWeights(w);
  		

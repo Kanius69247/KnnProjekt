@@ -1,3 +1,5 @@
+package NeuronalNetwork;
+
 import java.util.Random;
 
 /**

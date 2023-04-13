@@ -1,3 +1,4 @@
+package NeuronalNetwork;
 
 public class Neuron
 {
