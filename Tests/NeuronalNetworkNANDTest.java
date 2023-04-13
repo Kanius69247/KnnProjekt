@@ -7,52 +7,52 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class NeuronalNetworkTest {
+public class NeuronalNetworkNANDTest {
     private static NeuronalNetwork nn;
-    private static int[] structureOR;
+    private static int[] structureNAND;
     private static double [][][] w;
 
     @BeforeEach
     public void setUp() {
         nn = new NeuronalNetwork();
-        structureOR = new int[]{2, 1};
-        nn.create( structureOR );
+        structureNAND = new int[]{2, 1};
+        nn.create(structureNAND);
         w = nn.getWeights();
 
-        w[0][0][0] = 1.0;
-        w[0][1][0] = 1.0;
+        w[0][0][0] = -0.5;
+        w[0][1][0] = -0.5;
         w[0][2][0] = 0.0; //deactivate BIAS NeuronalNetwork.Neuron
 
         nn.setWeights(w);
-        nn.setUnitType(1, 0, "stepfun", 0.5);
+        nn.setUnitType(1, 0, "stepfun", -0.7);
     }
 
     @Test
-    public void or_test_1_1() {
+    public void nand_test_1_1() {
         double[] x = { 1.0, 1.0 } ;
         double[] out = nn.compute( x );
-        assertEquals(1, out[0]);
+        assertEquals(0, out[0]);
     }
 
     @Test
-    public void or_test_1_0() {
+    public void nand_test_1_0() {
         double[] x = { 1.0, 0.0 } ;
         double[] out = nn.compute( x );
         assertEquals(1, out[0]);
     }
 
     @Test
-    public void or_test_0_1() {
+    public void nand_test_0_1() {
         double[] x = { 0.0, 1.0 } ;
         double[] out = nn.compute( x );
         assertEquals(1, out[0]);
     }
 
     @Test
-    public void or_test_0_0() {
+    public void nand_test_0_0() {
         double[] x = { 0.0, 0.0 } ;
         double[] out = nn.compute( x );
-        assertEquals(0, out[0]);
+        assertEquals(1, out[0]);
     }
 
     @AfterEach
