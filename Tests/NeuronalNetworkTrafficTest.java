@@ -43,7 +43,7 @@ public class NeuronalNetworkTrafficTest {
     }
 
     @Test
-    public void xor_test_1_1() {
+    public void traffic_test_1_1() {
         double[] x = {1.0, 0.0, 0.0};
         double[] out = nn.compute( x );
         double[] expected = {-0.0350473917418512, 0.0637984092627128,
