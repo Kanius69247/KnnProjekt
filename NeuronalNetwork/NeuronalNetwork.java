@@ -5,95 +5,93 @@ import java.util.Random;
 /**
  * Represents a Neuronal Network
  */
-public class NeuronalNetwork
-{
+public class NeuronalNetwork {
     Neuron[][] cells = new Neuron[0][];
     //[Layer] [Neuronen im Layer] [Neuronen im darauffolgenden Layer]
     double[][][] weights = new double[0][][];
-    boolean useBias;
+    double[][] sums;
+    double[][] results;
     int[] structure;
+    double bias;
+    double biasWeight;
 
     public NeuronalNetwork() {
-        useBias = true;
+        this.bias = 0;
+        this.biasWeight = 1;
     }
-
 
     /**
      * create the Neuronal network with the given structure
      * @param structure network structure (e.g. {2,3,4,5})
      */
-    public void create(int[] structure)
-    {
+    public void create(int[] structure) {
         createNetworkStructure(structure);
         this.structure = structure;
     }
 
-    public void setUseBias(boolean bias){
-        this.useBias = bias;
+    public void setBias(double bias) {
+        this.bias = bias;
     }
 
-    private void createNetworkStructure(int[] structure){
+    public double getBias() {
+        return bias;
+    }
+
+    private void createNetworkStructure(int[] structure) {
         cells = new Neuron[structure.length][];
-        for(int i = 0; i < structure.length; i++)
-        {
-            int neuronCount = structure[i];
+        for (int i = 0; i < structure.length; i++) {
 
-            if(i < structure.length-1) //Do not add Bias neuron on last layer
-                neuronCount++; //Add 1 for Bias neuron
-
+            int neuronCount = (i < structure.length - 1) ? structure[i] + 1 : structure[i];
             cells[i] = new Neuron[neuronCount];
 
-            for(int j = 0; j < neuronCount; j++)
+            for (int j = 0; j < neuronCount; j++) {
                 cells[i][j] = new Neuron();
+                if ((i < structure.length - 1) && (j >= neuronCount - 1)) {
+                    cells[i][j].setUnitType("id");
+                }
+            }
         }
-
-        createRandomWeights(structure, useBias);
+        createRandomWeights(structure);
     }
 
-    public void initializeRandomWeights(){
+    public void initializeRandomWeights() {
         createNetworkStructure(structure);
     }
 
-    private void createRandomWeights(int[] structure, boolean useBias)
-    {
+
+    private void createRandomWeights(int[] structure) {
         Random rnd = new Random();
-
         int layers = structure.length;
+        weights = new double[layers - 1][][];
 
-        weights = new double[layers -1][][];
+        for (int i = 0; i < layers - 1; i++) {
 
-         for(int i = 0; i < layers -1; i++)
-         {
-             int neurons = structure[i] +1; //+1 for BIAS neuron
-             weights[i] = new double[neurons][];
+            int neurons = cells[i].length;
+            weights[i] = new double[neurons][];
 
-             for(int j = 0; j < neurons; j++)
-             {
-                 int neuronsNextLayer = structure[i+1];
-                 weights[i][j] = new double[neuronsNextLayer];
+            for (int j = 0; j < neurons; j++) {
 
-                 for(int k = 0; k < neuronsNextLayer; k++)
-                 {
-                     if(!useBias && k == neuronsNextLayer-1)
-                     {
-                         weights[i][j][k] = 0.0;
-                     }
-                     else
-                     {
-                         double randomWeight = -1 + (1 - (-1)) * rnd.nextDouble();
-                         weights[i][j][k] = randomWeight;
-                     }
-                 }
-             }
-         }
+                int neuronsNextLayer = cells[i+1].length;
+                weights[i][j] = new double[neuronsNextLayer];
+
+                for (int k = 0; k < neuronsNextLayer; k++) {
+                    if (j == (neurons - 1)) {
+                        weights[i][j][k] = (k < (neuronsNextLayer - 1)) ? 0.0 : biasWeight;
+                    } else {
+                        weights[i][j][k] = -1 + 2 * rnd.nextDouble();
+                    }
+                }
+            }
+        }
     }
+
 
     /**
      * Set the cells
      * @param cells [ Layer ] [ Neuronen im Layer ]
      */
 
-    public void setCells(Neuron[][] cells){
+    public void setCells(Neuron[][] cells) {
         this.cells = cells;
     }
 
@@ -109,8 +107,7 @@ public class NeuronalNetwork
      * Set the weights
      * @param weights [ Layer ] [ Neuronen im Layer ] [ Neuronen im darauffolgenden Layer ]
      */
-    public void setWeights(double[][][] weights)
-    {
+    public void setWeights(double[][][] weights) {
         this.weights = weights;
     }
 
@@ -118,8 +115,7 @@ public class NeuronalNetwork
      * Retrieves the weights used in the neuronal network
      * @return weights
      */
-    public double[][][] getWeights()
-    {
+    public double[][][] getWeights() {
         return weights;
     }
 
@@ -129,12 +125,12 @@ public class NeuronalNetwork
      * @param neuron
      * @param function
      */
-    public void setUnitType(int layer, int neuron, String function)
-    {
+    public void setUnitType(int layer, int neuron, String
+            function) {
         cells[layer][neuron].setUnitType(function);
     }
-    public void setUnitType(int layer, int neuron, String function, double threshold)
-    {
+    public void setUnitType(int layer, int neuron, String
+            function, double threshold) {
         cells[layer][neuron].setUnitType(function, threshold);
     }
 
@@ -143,33 +139,37 @@ public class NeuronalNetwork
      * @param data data to compute
      * @return compute results
      */
-    public double[] compute(double[] data)
-    {
-        double[][] results = new double[cells.length][];
+    public double[] compute(double[] data) {
+        sums = new double[cells.length][];
+        results = new double[cells.length][];
 
-        //fill in input data
-        for(int i = 0; i < data.length; i++)
-        {
+        //making results of each layers
+        for (int i = 0; i < cells.length; i++) {
+            sums[i] = new double[cells[i].length];
             results[i] = new double[cells[i].length];
-            results[0][i] = cells[0][i].compute(data[i]);
         }
 
-        //Compute Layer 1 (second) to end
-        for(int i = 0; i < cells.length-1; i++)//iterate layers
+        //fill in input data/bias
+        for (int i = 0; i <= data.length; i++) {
+            sums[0][i] = (i == data.length) ? bias : data[i];
+            results[0][i] = (i == data.length) ? bias : data[i];
+        }
+
+
+        for (int i = 0; i < results.length - 1; i++) //iterate layers
         {
-            for(int j = 0; j < cells[i+1].length; j++)//iterate neurons of the layer
+            for (int j = 0; j < results[i+1].length; j++) //iterate neurons of the layer
             {
                 double sum = 0;
-                for (int k = 0; k < cells[i].length; k++)//iterate the weights
+                for (int k = 0; k < results[i].length; k++) //iterate the weights
                 {
                     sum += results[i][k] * weights[i][k][j];
                 }
-
-                results[i+1][j] = cells[i+1][j].compute(sum);
+                sums[i + 1][j] = sum;
+                results[i + 1][j] = cells[i + 1][j].compute(sum);
             }
         }
-
-        return results[results.length-1];
+        return results[results.length - 1];
     }
 
     /**
@@ -177,16 +177,14 @@ public class NeuronalNetwork
      * @param data data to compute
      * @return compute results
      */
-    public double[][] computeAll(double[][] data)
-    {
-        double[][] results = new double[data.length][];
+    public double[][] computeAll(double[][] data) {
+        double[][] resultsAll = new double[data.length][];
 
-        for(int i = 0; i < data.length; i++)
-        {
-            results[i] = compute(data[i]);
+        for (int i = 0; i < data.length; i++) {
+            resultsAll[i] = compute(data[i]);
         }
 
-        return results;
+        return resultsAll;
     }
 
     /**
@@ -194,21 +192,18 @@ public class NeuronalNetwork
      * @return nn output string
      */
     @Override
-    public String toString()
-    {
-        String result = "";
+    public String toString() {
+        StringBuilder result = new StringBuilder();
 
-        for(int i = 0; i < cells.length; i++)
-        {
-            for(int j = 0; j < cells[i].length; j++)
-            {
-                result += cells[i][j].toString();
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[i].length; j++) {
+                result.append(cells[i][j].toString());
             }
 
-            result += "\n";
+            result.append("\n");
         }
 
-        return result;
+        return result.toString();
     }
 
 }
