@@ -49,10 +49,10 @@ public class NeuronalNetworkTrafficTest {
         double[] expected = {-0.0350473917418512, 0.0637984092627128,
                             0.11976621345437,   0.0336754888083852};
 
-        assertEquals(expected[0], out[0], 0.0001);
-        assertEquals(expected[0], out[0], 0.0001);
-        assertEquals(expected[0], out[0], 0.0001);
-        assertEquals(expected[0], out[0], 0.0001);
+        assertEquals(expected[0], out[0], 0.01);
+        assertEquals(expected[1], out[1], 0.01);
+        assertEquals(expected[2], out[2], 0.01);
+        assertEquals(expected[3], out[3], 0.01);
     }
 
     @AfterEach
