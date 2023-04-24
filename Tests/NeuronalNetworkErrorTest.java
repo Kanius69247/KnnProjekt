@@ -25,9 +25,11 @@ class NeuronalNetworkErrorTest {
         w = new double[][][]{{{1,1}, {1,1}, {0,0}}};
         nn.setWeights(w);
 
-        nn.samples = new double[][]{{0,0},{1,1},{2,2}};
-        nn.actual = new double[][]{{0,0},{1,2},{3,4}};
-        nn.computeAll();
+        double[][] samples = new double[][]{{0,0},{1,1},{2,2}};
+        nn.computeAll(samples);
+
+        double[][] actuals = new double[][]{{0,0},{1,2},{3,4}};
+        nn.setActuals(actuals);
     }
 
     @Test
