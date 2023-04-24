@@ -2,6 +2,7 @@ package NeuronalNetwork;
 
 import java.util.Arrays;
 import java.util.Random;
+import java.lang.Math;
 
 /**
  * Represents a Neuronal Network
@@ -9,14 +10,18 @@ import java.util.Random;
 public class NeuronalNetwork {
     Neuron[][] cells = new Neuron[0][];
     //[Layer] [Neuronen im Layer] [Neuronen im darauffolgenden Layer]
-
+    double[][] samples;
+    public double[][] actuals;
     double[][][] initialWeight = new double[0][][];
     double[][][] weights = new double[0][][];
     double[][] sums;
     double[][] results;
+    public double[][] resultsAll;
     int[] structure;
     double bias;
     double biasWeight;
+    double error;
+    double [] errors;
 
     public NeuronalNetwork() {
         this.bias = 0;
@@ -140,18 +145,67 @@ public class NeuronalNetwork {
     }
 
     /**
+     * network computes the given data
+     * @param actuals actual datas
+     * @return compute results
+     */
+
+    public double computeError(double[] expected, double[] actuals){
+
+        double temp = 0;
+        int n = expected.length;
+
+        for(int i = 0; i < n; i++){
+            temp += Math.pow((expected[i] - actuals[i]), 2);
+        }
+
+        error = temp/n;
+        return error;
+    }
+
+    public double[] computeErrorAll() {
+
+        int n = resultsAll.length;
+        double[] errors = new double[n];
+
+        for (int i = 0; i < n; i++) {
+            errors[i] = computeError(resultsAll[i], actuals[i]);
+        }
+
+        this.errors = errors;
+        return this.errors;
+    }
+
+        /**
          * network computes the given data
-         * @param data data to compute
          * @return compute results
          */
-    public double[][] computeAll(double[][] data) {
-        double[][] resultsAll = new double[data.length][];
+    public double[][] computeAll() {
 
-        for (int i = 0; i < data.length; i++) {
-            resultsAll[i] = compute(data[i]);
+        int n = samples.length;
+        resultsAll = new double[n][];
+
+        for (int i = 0; i < n; i++) {
+            resultsAll[i] = compute(samples[i]);
         }
 
         return resultsAll;
+    }
+
+    /**
+     * network computes the given data
+     * @param samples multiple dataset to compute
+     * @return compute results
+     */
+    public double[][] computeAll(double[][] samples) {
+        double[][] resultsAll = new double[samples.length][];
+
+        for (int i = 0; i < samples.length; i++) {
+            resultsAll[i] = compute(samples[i]);
+        }
+
+        this.resultsAll = resultsAll;
+        return this.resultsAll;
     }
 
     /**
@@ -231,12 +285,48 @@ public class NeuronalNetwork {
     }
 
     /**
+     * Set the actuals dataset
+     * @param actuals dasatet
+     */
+    public void setActuals(double[][] actuals) {
+        this.actuals = actuals;
+    }
+
+    /**
+     * Get the actuals dataset
+     * @return actuals
+     */
+    public double[][] getActuals() {
+        return actuals;
+    }
+
+    /**
+     * Import CSV data into the class
+     */
+    public void readSamples(String path){
+        CSVReader csvReader = new CSVReader();
+        csvReader.read(path);
+        samples = csvReader.getCSV();
+        System.out.println(samples.length + " Samples are successfully loaded.");
+
+    }
+
+    public void readActual(String path){
+        CSVReader csvReader = new CSVReader();
+        csvReader.read(path);
+        actuals = csvReader.getCSV();
+        System.out.println(actuals.length + " Actual results are successfully loaded.");
+
+    }
+
+    /**
      * toString
      * @return nn output string
      */
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
+        result.append("\n##Neuron types\n");
 
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
