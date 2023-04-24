@@ -113,3 +113,7 @@ Course Link: [LEA](https://github.com/Kanius69247/KnnProjekt)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+<!-- Sources -->
+### Sources
+Sample csv: https://extendsclass.com/csv-generator.html
