@@ -14,7 +14,7 @@ public class Main
  		// - sollen alle Einheiten die Identitätsfunktion als Ausgabefunktion verwenden
  		// - sollen die Gewichte zufällig mit Werten zwschen -1 und 1 initialisiert werden
  		
- 		 System.out.println( nn );
+		System.out.println( nn );
  		// toString soll Netzkonfiguration (Ebenenstruktur und Gewichte) ausgeben
  		
 		int[] strukturAND = {2,1}; // BIAS-NeuronalNetwork.Neuron intern verwaltet

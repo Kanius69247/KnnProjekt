@@ -1,8 +1,10 @@
 package NeuronalNetwork;
 
+import jdk.jfr.Threshold;
+
 public class Neuron
 {
-    private String unitType; //Still not sure if this decides which function is used
+    private String unitType;
     private double threshold;
 
     public Neuron()
@@ -76,7 +78,14 @@ public class Neuron
     @Override
     public String toString()
     {
-        return "unit: "+ unitType + ", ";
+        String result = "";
+
+        result += "unit: "+ unitType + ", ";
+        if(unitType.equals("stepfun"))
+            result += this.threshold + ", ";
+
+        return result;
+
     }
 
     private double id(double x)

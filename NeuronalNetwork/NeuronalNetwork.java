@@ -1,6 +1,5 @@
 package NeuronalNetwork;
 
-import java.util.Arrays;
 import java.util.Random;
 import java.lang.Math;
 
@@ -96,7 +95,10 @@ public class NeuronalNetwork {
      * @param n compute till n-th result
      * @return compute results
      */
-    public double[] compute(double[] data, int n) {
+    public double[] compute(double[] data, int n) throws IllegalArgumentException {
+        if(data.length > cells[0].length || n > cells.length)
+            throw new IllegalArgumentException("Data to compute does not match network structure!");
+
         sums = new double[n+1][];
         results = new double[n+1][];
 
@@ -209,7 +211,7 @@ public class NeuronalNetwork {
     }
 
     /**
-     * Initializeing weights to first weights when it was created
+     * Initializing weights to first weights when it was created
      */
     public void initializeRandomWeights() {
         weights = initialWeight;
@@ -221,8 +223,10 @@ public class NeuronalNetwork {
      * @param neuron
      * @param function
      */
-    public void setUnitType(int layer, int neuron, String
-            function) {
+    public void setUnitType(int layer, int neuron, String function) {
+        if(layer > cells.length || neuron > cells[layer].length)
+            throw new IllegalArgumentException("Layer/Neuron index does not match Network structure!");
+
         cells[layer][neuron].setUnitType(function);
     }
 
@@ -233,8 +237,7 @@ public class NeuronalNetwork {
      * @param function
      * @param threshold offset of function
      */
-    public void setUnitType(int layer, int neuron, String
-            function, double threshold) {
+    public void setUnitType(int layer, int neuron, String function, double threshold) {
         cells[layer][neuron].setUnitType(function, threshold);
     }
 
@@ -273,6 +276,9 @@ public class NeuronalNetwork {
      * @param weights [ Layer ] [ Neuronen im Layer ] [ Neuronen im darauffolgenden Layer ]
      */
     public void setWeights(double[][][] weights) {
+        if(weights.length > this.weights.length) //Still possible that arrays in 2. oder 3. Dimension have a wrong length
+            throw new IllegalArgumentException("size of weights does not match!");
+
         this.weights = weights;
     }
 
