@@ -2,6 +2,7 @@ package NeuronalNetwork;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,5 +42,23 @@ public class CSVReader {
         }
 
         return data;
+    }
+
+    public static void write(String filePath, double[][] data)
+    {
+        try {
+            FileWriter writer = new FileWriter(filePath);
+            for (int i = 0; i < data.length; i++) {
+                for(int j = 0; j < data[i].length; j++)
+                    writer.append(data[i][j] + ",");
+
+                writer.append("\n");
+            }
+            writer.close();
+        }
+        catch (IOException ioEx)
+        {
+            System.err.println("Failed to write CSV file to "+filePath);
+        }
     }
 }

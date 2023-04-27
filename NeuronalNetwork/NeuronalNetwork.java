@@ -179,6 +179,7 @@ public class NeuronalNetwork {
         return this.resultsAll;
     }
 
+
     /**
      * Initializing weights to first weights when it was created
      */
