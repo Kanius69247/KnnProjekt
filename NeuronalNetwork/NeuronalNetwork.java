@@ -207,6 +207,9 @@ public class NeuronalNetwork {
      * @param threshold offset of function
      */
     public void setUnitType(int layer, int neuron, String function, double threshold) {
+        if(layer > cells.length || neuron > cells[layer].length)
+            throw new IllegalArgumentException("Layer/Neuron index does not match Network structure!");
+
         cells[layer][neuron].setUnitType(function, threshold);
     }
 
