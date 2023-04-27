@@ -7,6 +7,7 @@ public class Neuron
     private String unitType;
     private double threshold;
     private double derivative;
+    private double result;
 
     public Neuron()
     {
@@ -21,37 +22,54 @@ public class Neuron
      */
     public double compute(double input)
     {
-        double result = 0.0;
+        this.result = 0.0;
 
-        switch(unitType)
+        switch(this.unitType)
         {
             case "id":
-                result = UnitTypeFunctions.id(input);
-                derivative = UnitTypeFunctions.derivationId(result);
+                this.result = UnitTypeFunctions.id(input);
                 break;
             case "logistic":
-                result = UnitTypeFunctions.logistic(input);
-                derivative = UnitTypeFunctions.derivationLogistic(result);
+                this.result = UnitTypeFunctions.logistic(input);
                 break;
             case "tanh":
-                result = UnitTypeFunctions.tanh(input);
-                derivative = UnitTypeFunctions.derivationTanh(result);
+                this.result = UnitTypeFunctions.tanh(input);
                 break;
             case "heaviside":
-                result = UnitTypeFunctions.heaviside(input, threshold);
-                derivative = UnitTypeFunctions.derivationHeaviside(result);
+                this.result = UnitTypeFunctions.heaviside(input, threshold);
                 break;
             case "stepfun":
-                result = UnitTypeFunctions.perceptronStepfun(input, threshold);
-                derivative = UnitTypeFunctions.derivationPerceptronStepfun(result);
+                this.result = UnitTypeFunctions.perceptronStepfun(input, threshold);
                 break;
         }
 
-        return result;
+        return this.result;
     }
 
+    /**
+     * Computes the derivative of the Output
+     * @return derivative of the output
+     */
     public double getDerivative() {
-        return derivative;
+        switch(this.unitType)
+        {
+            case "id":
+                this.derivative = UnitTypeFunctions.derivationId(this.result);
+                break;
+            case "logistic":
+                this.derivative = UnitTypeFunctions.derivationLogistic(this.result);
+                break;
+            case "tanh":
+                this.derivative = UnitTypeFunctions.derivationTanh(this.result);
+                break;
+            case "heaviside":
+                this.derivative = UnitTypeFunctions.derivationHeaviside(this.result);
+                break;
+            case "stepfun":
+                this.derivative = UnitTypeFunctions.derivationPerceptronStepfun(this.result);
+                break;
+        }
+        return this.derivative;
     }
 
     /**
