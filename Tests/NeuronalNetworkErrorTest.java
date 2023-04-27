@@ -29,14 +29,15 @@ class NeuronalNetworkErrorTest {
         double[][] samples = new double[][]{{0,0},{1,1},{2,2}};
         nn.computeAll(samples);
 
-        double[][] actuals = new double[][]{{0,0},{1,2},{3,4}};
-        nn.setActuals(actuals);
+
     }
 
     @Test
     void computeErrorAll_test() {
 
-        double[] errors = nn.computeErrorAll();
+        double[][] actuals = new double[][]{{0,0},{1,2},{3,4}};
+
+        double[] errors = nn.computeErrorAll(actuals);
 
         assertEquals(0, errors[0]); // in:(0, 0), out:(0, 0) -> actual:(0, 0)
                                              // (0^2 + 0^2) / 2 = 0
@@ -54,11 +55,9 @@ class NeuronalNetworkErrorTest {
         nn_2.create(structure_2);
 
 
-        nn_2.setActuals(CSVReader.read("Tests/csv/actuall.csv"));
-        nn_2.setSamples(CSVReader.read("Tests/csv/sample.csv"));
-        nn_2.computeAll();
+        nn_2.computeAll(CSVReader.read("Tests/csv/sample.csv"));
 
-        double[] errors = nn_2.computeErrorAll();
+        double[] errors = nn_2.computeErrorAll(CSVReader.read("Tests/csv/actuall.csv"));
 
 //		System.out.println(Arrays.deepToString(nn_2.samples));
 //		System.out.println(Arrays.deepToString(nn_2.actual));

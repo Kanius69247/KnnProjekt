@@ -9,8 +9,6 @@ import java.lang.Math;
 public class NeuronalNetwork {
     Neuron[][] cells = new Neuron[0][];
     //[Layer] [Neuronen im Layer] [Neuronen im darauffolgenden Layer]
-    double[][] samples;
-    public double[][] actuals;
     double[][][] initialWeight = new double[0][][];
     double[][][] weights = new double[0][][];
     double[][] results;
@@ -80,7 +78,6 @@ public class NeuronalNetwork {
         }
         weights = initialWeight;
     }
-
 
     /**
      * network computes the given data until n-th line
@@ -155,7 +152,7 @@ public class NeuronalNetwork {
         return temp/n;//nicht eher *0.5 statt /n
     }
 
-    public double[] computeErrorAll() {
+    public double[] computeErrorAll(double [][] actuals) {
         int n = resultsAll.length;
         double[] errors = new double[n];
 
@@ -164,22 +161,6 @@ public class NeuronalNetwork {
         }
 
         return errors;
-    }
-
-        /**
-         * network computes the given data
-         * @return compute results
-         */
-    public double[][] computeAll() {
-
-        int n = samples.length;
-        resultsAll = new double[n][];
-
-        for (int i = 0; i < n; i++) {
-            resultsAll[i] = compute(samples[i]);
-        }
-
-        return resultsAll;
     }
 
     /**
@@ -253,22 +234,6 @@ public class NeuronalNetwork {
      */
     public double[][][] getWeights() {
         return weights;
-    }
-
-    /**
-     * Set the actuals dataset
-     * @param actuals dasatet
-     */
-    public void setActuals(double[][] actuals) {
-        this.actuals = actuals;
-    }
-
-    /**
-     * Sets the Samples values
-     * @param samples data samples
-     */
-    public void setSamples(double[][] samples){
-        this.samples = samples;
     }
 
     /**
