@@ -6,6 +6,7 @@ public class Neuron
 {
     private String unitType;
     private double threshold;
+    private double derivative;
 
     public Neuron()
     {
@@ -25,23 +26,32 @@ public class Neuron
         switch(unitType)
         {
             case "id":
-                result = id(input);
+                result = UnitTypeFunctions.id(input);
+                derivative = UnitTypeFunctions.derivationId(result);
                 break;
             case "logistic":
-                result = logistic(input);
+                result = UnitTypeFunctions.logistic(input);
+                derivative = UnitTypeFunctions.derivationLogistic(result);
                 break;
             case "tanh":
-                result = tanh(input);
+                result = UnitTypeFunctions.tanh(input);
+                derivative = UnitTypeFunctions.derivationTanh(result);
                 break;
             case "heaviside":
-                result = heaviside(input);
+                result = UnitTypeFunctions.heaviside(input, threshold);
+                derivative = UnitTypeFunctions.derivationHeaviside(result);
                 break;
             case "stepfun":
-                result = perceptronStepfun(input);
+                result = UnitTypeFunctions.perceptronStepfun(input, threshold);
+                derivative = UnitTypeFunctions.derivationPerceptronStepfun(result);
                 break;
         }
 
         return result;
+    }
+
+    public double getDerivative() {
+        return derivative;
     }
 
     /**
@@ -86,38 +96,6 @@ public class Neuron
 
         return result;
 
-    }
-
-    private double id(double x)
-    {
-        return x;
-    }
-
-    private double logistic(double x) {
-        return 1 / (1 + Math.exp(-x));
-    }
-
-    private double tanh(double x) {
-        return Math.tanh(x);
-    }
-
-    public double heaviside(double x) {
-        if (x < threshold) {
-            return 0.0;
-        } else if (x == threshold) {
-            return 0.5;
-        } else {
-            return 1.0;
-        }
-    }
-
-    private double perceptronStepfun(double x)
-    {
-        if (x<=threshold){
-            return 0;
-        } else {
-            return 1;
-        }
     }
 
 }
