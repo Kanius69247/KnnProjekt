@@ -13,13 +13,11 @@ public class NeuronalNetwork {
     public double[][] actuals;
     double[][][] initialWeight = new double[0][][];
     double[][][] weights = new double[0][][];
-    double[][] sums;
     double[][] results;
     public double[][] resultsAll;
     double bias;
     double biasWeight;
-    double error;
-    double [] errors;
+
 
     public NeuronalNetwork() {
         this.bias = 0;
@@ -97,7 +95,7 @@ public class NeuronalNetwork {
         if(data.length > cells[0].length || n > cells.length)
             throw new IllegalArgumentException("Data to compute does not match network structure!");
 
-        sums = new double[n+1][];
+        double[][] sums = new double[n+1][];
         results = new double[n+1][];
 
         //making results of each layers
@@ -151,7 +149,6 @@ public class NeuronalNetwork {
      */
 
     public double computeError(double[] expected, double[] actuals){
-
         double temp = 0;
         int n = expected.length;
 
@@ -159,12 +156,10 @@ public class NeuronalNetwork {
             temp += Math.pow((expected[i] - actuals[i]), 2);
         }
 
-        error = temp/n;//nicht eher *0.5 statt /n
-        return error;
+        return temp/n;//nicht eher *0.5 statt /n
     }
 
     public double[] computeErrorAll() {
-
         int n = resultsAll.length;
         double[] errors = new double[n];
 
@@ -172,8 +167,7 @@ public class NeuronalNetwork {
             errors[i] = computeError(resultsAll[i], actuals[i]);
         }
 
-        this.errors = errors;
-        return this.errors;
+        return errors;
     }
 
         /**
@@ -206,6 +200,14 @@ public class NeuronalNetwork {
 
         this.resultsAll = resultsAll;
         return this.resultsAll;
+    }
+
+    /**
+     * Trains the neuronal Network (edits the weights according to the calculated error value)
+     */
+    public void train(double[] error, double learningRate, double momentum)
+    {
+
     }
 
     /**
@@ -247,29 +249,6 @@ public class NeuronalNetwork {
     }
 
     /**
-     * Returning bias
-     */
-    public double getBias() {
-        return bias;
-    }
-
-    /**
-     * Set the cells
-     * @param cells [ Layer ] [ Neuronen im Layer ]
-     */
-    public void setCells(Neuron[][] cells) {
-        this.cells = cells;
-    }
-
-    /**
-     * Retrieves the cells used in the neuronal network
-     * @return cells
-     */
-    public Neuron[][] getCells() {
-        return cells;
-    }
-
-    /**
      * Set the weights
      * @param weights [ Layer ] [ Neuronen im Layer ] [ Neuronen im darauffolgenden Layer ]
      */
@@ -297,13 +276,9 @@ public class NeuronalNetwork {
     }
 
     /**
-     * Get the actuals dataset
-     * @return actuals
+     * Sets the Samples values
+     * @param samples data samples
      */
-    public double[][] getActuals() {
-        return actuals;
-    }
-
     public void setSamples(double[][] samples){
         this.samples = samples;
     }
