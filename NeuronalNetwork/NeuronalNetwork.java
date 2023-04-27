@@ -46,9 +46,6 @@ public class NeuronalNetwork {
 
             for (int j = 0; j < neuronCount; j++) {
                 cells[i][j] = new Neuron();
-                if ((i < structure.length - 1) && (j >= neuronCount - 1)) {
-                    cells[i][j].setUnitType("id");
-                }
             }
         }
     }
@@ -147,7 +144,6 @@ public class NeuronalNetwork {
      * @param actuals actual datas
      * @return compute results
      */
-
     public double computeError(double[] expected, double[] actuals){
         double temp = 0;
         int n = expected.length;
@@ -200,14 +196,6 @@ public class NeuronalNetwork {
 
         this.resultsAll = resultsAll;
         return this.resultsAll;
-    }
-
-    /**
-     * Trains the neuronal Network (edits the weights according to the calculated error value)
-     */
-    public void train(double[] error, double learningRate, double momentum)
-    {
-
     }
 
     /**
