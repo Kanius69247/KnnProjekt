@@ -16,7 +16,6 @@ public class NeuronalNetwork {
     double[][] sums;
     double[][] results;
     public double[][] resultsAll;
-    int[] structure;
     double bias;
     double biasWeight;
     double error;
@@ -34,7 +33,6 @@ public class NeuronalNetwork {
     public void create(int[] structure) {
         createNetworkStructure(structure);
         createRandomWeights(structure);
-        this.structure = structure;
     }
 
     /**
@@ -161,7 +159,7 @@ public class NeuronalNetwork {
             temp += Math.pow((expected[i] - actuals[i]), 2);
         }
 
-        error = temp/n;
+        error = temp/n;//nicht eher *0.5 statt /n
         return error;
     }
 
@@ -306,23 +304,8 @@ public class NeuronalNetwork {
         return actuals;
     }
 
-    /**
-     * Import CSV data into the class
-     */
-    public void readSamples(String path){
-        CSVReader csvReader = new CSVReader();
-        csvReader.read(path);
-        samples = csvReader.getCSV();
-        System.out.println(samples.length + " Samples are successfully loaded.");
-
-    }
-
-    public void readActual(String path){
-        CSVReader csvReader = new CSVReader();
-        csvReader.read(path);
-        actuals = csvReader.getCSV();
-        System.out.println(actuals.length + " Actual results are successfully loaded.");
-
+    public void setSamples(double[][] samples){
+        this.samples = samples;
     }
 
     /**

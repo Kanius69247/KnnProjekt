@@ -7,22 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CSVReader {
-    public String csvFile = "";
-    private double[][] dataSet = new double[0][];
 
     /**
      * reading csv file and save it at dataSet
      * @param filePath path of csv file to import
      */
-    public void read(String filePath){
-
-        this.csvFile = filePath;
-
+    public static double[][] read(String filePath){
         String line = "";
         String csvSplitBy = ",";
         List<double[]> dataList = new ArrayList<>(); // initialize a list to store the data
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 
             while ((line = br.readLine()) != null) {
 
@@ -45,15 +40,6 @@ public class CSVReader {
             data[i] = dataList.get(i); // populate the 2D array with values from the list
         }
 
-        this.dataSet = data;
-
-    }
-
-    /**
-     * return 2D array of csv
-     * @return dataSet
-     */
-    public double[][] getCSV(){
-        return this.dataSet;
+        return data;
     }
 }

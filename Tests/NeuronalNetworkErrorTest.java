@@ -1,6 +1,7 @@
 package Tests;
 
 import NeuronalNetwork.NeuronalNetwork;
+import NeuronalNetwork.CSVReader;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,8 +53,9 @@ class NeuronalNetworkErrorTest {
         int[] structure_2 = {2,3,4,2};
         nn_2.create(structure_2);
 
-        nn_2.readActual("Tests/csv/actuall.csv");
-        nn_2.readSamples("Tests/csv/sample.csv");
+
+        nn_2.setActuals(CSVReader.read("Tests/csv/actuall.csv"));
+        nn_2.setSamples(CSVReader.read("Tests/csv/sample.csv"));
         nn_2.computeAll();
 
         double[] errors = nn_2.computeErrorAll();

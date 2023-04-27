@@ -12,7 +12,7 @@ public class NeuronalNetworkHalfAdderTest {
     private static NeuronalNetwork nn;
     private static int[] structureHalfAdder;
     private static double [][][] w;
-
+    
     @BeforeEach
     public void setUp() {
         nn = new NeuronalNetwork();
