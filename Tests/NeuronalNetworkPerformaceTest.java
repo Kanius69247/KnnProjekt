@@ -87,12 +87,12 @@ public class NeuronalNetworkPerformaceTest {
         long times = 0;
 
         for(int i = 0; i < 1000; i++) {
-            long start = System.currentTimeMillis();
+            long start = System.nanoTime();
             //System.out.println("start: "+start);
 
             double[] out = nn.compute(input);
 
-            long finish = System.currentTimeMillis();
+            long finish = System.nanoTime();
             //System.out.println("finish: " + finish);
 
             long timeElapsed = finish - start;
@@ -100,7 +100,7 @@ public class NeuronalNetworkPerformaceTest {
             //System.out.println("or-Performance (0.0,0.0) Elapsed Time: " + timeElapsed);
         }
 
-        System.out.println("or-Performance (x1000) Average Elapsed Time: " + times/1000);
+        System.out.println("or-Performance (0-0) Average Elapsed Time: " + times/1000+ " ns");
     }
 
     @Test
@@ -111,12 +111,12 @@ public class NeuronalNetworkPerformaceTest {
         long times = 0;
 
         for(int i = 0; i < 1000; i++) {
-            long start = System.currentTimeMillis();
+            long start = System.nanoTime();
             //System.out.println("start: "+start);
 
             double[] out = nn.compute(input);
 
-            long finish = System.currentTimeMillis();
+            long finish = System.nanoTime();
             //System.out.println("finish: " + finish);
 
             long timeElapsed = finish - start;
@@ -124,7 +124,7 @@ public class NeuronalNetworkPerformaceTest {
             //System.out.println("or-Performance (0.0,1.0) Elapsed Time: " + timeElapsed);
         }
 
-        System.out.println("or-Performance (x1000) Average Elapsed Time: " + times/1000);
+        System.out.println("or-Performance (0-1) Average Elapsed Time: " + times/1000+ " ns");
     }
 
     @Test
@@ -135,12 +135,12 @@ public class NeuronalNetworkPerformaceTest {
         long times = 0;
 
         for(int i = 0; i < 1000; i++) {
-            long start = System.currentTimeMillis();
+            long start = System.nanoTime();
             //System.out.println("start: "+start);
 
             double[] out = nn.compute(input);
 
-            long finish = System.currentTimeMillis();
+            long finish = System.nanoTime();
             //System.out.println("finish: " + finish);
 
             long timeElapsed = finish - start;
@@ -148,7 +148,7 @@ public class NeuronalNetworkPerformaceTest {
             //System.out.println("or-Performance (1.0,1.0) Elapsed Time: " + timeElapsed);
         }
 
-        System.out.println("or-Performance (x1000) Average Elapsed Time: " + times/1000);
+        System.out.println("or-Performance (1-1) Average Elapsed Time: " + times/1000+ " ns");
     }
 
 
@@ -160,12 +160,12 @@ public class NeuronalNetworkPerformaceTest {
         long times = 0;
 
         for(int i = 0; i < 1000; i++) {
-            long start = System.currentTimeMillis();
+            long start = System.nanoTime();
             //System.out.println("start: "+start);
 
             double[] out = nn.compute(input);
 
-            long finish = System.currentTimeMillis();
+            long finish = System.nanoTime();
             //System.out.println("finish: " + finish);
 
             long timeElapsed = finish - start;
@@ -173,7 +173,7 @@ public class NeuronalNetworkPerformaceTest {
             //System.out.println("nand-Performance (0.0,0.0) Elapsed Time: " + timeElapsed);
         }
 
-        System.out.println("nand-Performance (x1000) Average Elapsed Time: " + times/1000);
+        System.out.println("nand-Performance (0-0) Average Elapsed Time: " + times/1000+ " ns");
     }
 
     @Test
@@ -184,12 +184,12 @@ public class NeuronalNetworkPerformaceTest {
         long times = 0;
 
         for(int i = 0; i < 1000; i++) {
-            long start = System.currentTimeMillis();
+            long start = System.nanoTime();
             //System.out.println("start: "+start);
 
             double[] out = nn.compute(input);
 
-            long finish = System.currentTimeMillis();
+            long finish = System.nanoTime();
             //System.out.println("finish: " + finish);
 
             long timeElapsed = finish - start;
@@ -197,7 +197,7 @@ public class NeuronalNetworkPerformaceTest {
             //System.out.println("nand-Performance (0.0,1.0) Elapsed Time: " + timeElapsed);
         }
 
-        System.out.println("nand-Performance (x1000) Average Elapsed Time: " + times/1000);
+        System.out.println("nand-Performance (0-1) Average Elapsed Time: " + times/1000+ " ns");
     }
 
     @Test
@@ -208,12 +208,12 @@ public class NeuronalNetworkPerformaceTest {
         long times = 0;
 
         for(int i = 0; i < 1000; i++) {
-            long start = System.currentTimeMillis();
+            long start = System.nanoTime();
             //System.out.println("start: "+start);
 
             double[] out = nn.compute(input);
 
-            long finish = System.currentTimeMillis();
+            long finish = System.nanoTime();
             //System.out.println("finish: " + finish);
 
             long timeElapsed = finish - start;
@@ -221,7 +221,7 @@ public class NeuronalNetworkPerformaceTest {
             //System.out.println("nand-Performance (1.0,1.0) Elapsed Time: " + timeElapsed);
         }
 
-        System.out.println("nand-Performance (x1000) Average Elapsed Time: " + times/1000);
+        System.out.println("nand-Performance (1-1) Average Elapsed Time: " + times/1000 + " ns");
     }
 
     @Test
@@ -232,12 +232,12 @@ public class NeuronalNetworkPerformaceTest {
         long times = 0;
 
         for(int i = 0; i < 1000; i++) {
-            long start = System.currentTimeMillis();
+            long start = System.nanoTime();
             //System.out.println("start: "+start);
 
             double[] out = nn.compute(input);
 
-            long finish = System.currentTimeMillis();
+            long finish = System.nanoTime();
             //System.out.println("finish: " + finish);
 
             long timeElapsed = finish - start;
@@ -245,7 +245,7 @@ public class NeuronalNetworkPerformaceTest {
             //System.out.println("xor-Performance (1.0,1.0) Elapsed Time: " + timeElapsed);
         }
 
-        System.out.println("xor-Performance (x1000) Average Elapsed Time: " + times/1000);
+        System.out.println("xor-Performance (1-1) Average Elapsed Time: " + times/1000+ " ns");
     }
 
     @Test
@@ -256,12 +256,12 @@ public class NeuronalNetworkPerformaceTest {
         long times = 0;
 
         for(int i = 0; i < 1000; i++) {
-            long start = System.currentTimeMillis();
+            long start = System.nanoTime();
             //System.out.println("start: "+start);
 
             double[] out = nn.compute(input);
 
-            long finish = System.currentTimeMillis();
+            long finish = System.nanoTime();
             //System.out.println("finish: " + finish);
 
             long timeElapsed = finish - start;
@@ -269,7 +269,7 @@ public class NeuronalNetworkPerformaceTest {
             //System.out.println("xor-Performance (0.0,0.0) Elapsed Time: " + timeElapsed);
         }
 
-        System.out.println("xor-Performance (x1000) Average Elapsed Time: " + times/1000);
+        System.out.println("xor-Performance (0-0) Average Elapsed Time: " + times/1000+ " ns");
     }
 
     @Test
@@ -280,19 +280,19 @@ public class NeuronalNetworkPerformaceTest {
         long times = 0;
 
         for(int i = 0; i < 1000; i++) {
-            long start = System.currentTimeMillis();
+            long start = System.nanoTime();
             //System.out.println("start: "+start);
 
             double[] out = nn.compute(input);
 
-            long finish = System.currentTimeMillis();
+            long finish = System.nanoTime();
             //System.out.println("finish: " + finish);
 
             long timeElapsed = finish - start;
             times += timeElapsed;
             //System.out.println("xor-Performance (1.0,0.0) Elapsed Time: " + timeElapsed);
         }
-        System.out.println("xor-Performance (x1000) Average Elapsed Time: " + times/1000);
+        System.out.println("xor-Performance (1-0) Average Elapsed Time: " + times/1000 + " ns");
     }
 
     @AfterEach
