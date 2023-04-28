@@ -5,8 +5,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public class NeuronalNetworkPerformaceTest {
     private static NeuronalNetwork nn;
     private static int[] structure;
@@ -86,12 +84,23 @@ public class NeuronalNetworkPerformaceTest {
         setUpOr();
         double[] input = {0.0,0.0};
 
-        long start = System.currentTimeMillis();
-        double[] out = nn.compute(input);
-        long finish = System.currentTimeMillis();
-        long timeElapsed = finish - start;
+        long times = 0;
 
-        System.out.println("Or-Performance (0.0,0.0) Elapsed Time: "+timeElapsed);
+        for(int i = 0; i < 1000; i++) {
+            long start = System.currentTimeMillis();
+            //System.out.println("start: "+start);
+
+            double[] out = nn.compute(input);
+
+            long finish = System.currentTimeMillis();
+            //System.out.println("finish: " + finish);
+
+            long timeElapsed = finish - start;
+            times += timeElapsed;
+            //System.out.println("or-Performance (0.0,0.0) Elapsed Time: " + timeElapsed);
+        }
+
+        System.out.println("or-Performance (x1000) Average Elapsed Time: " + times/1000);
     }
 
     @Test
@@ -99,12 +108,23 @@ public class NeuronalNetworkPerformaceTest {
         setUpOr();
         double[] input = {0.0,1.0};
 
-        long start = System.currentTimeMillis();
-        double[] out = nn.compute(input);
-        long finish = System.currentTimeMillis();
-        long timeElapsed = finish - start;
+        long times = 0;
 
-        System.out.println("Or-Performance (0.0,1.0) Elapsed Time: "+timeElapsed);
+        for(int i = 0; i < 1000; i++) {
+            long start = System.currentTimeMillis();
+            //System.out.println("start: "+start);
+
+            double[] out = nn.compute(input);
+
+            long finish = System.currentTimeMillis();
+            //System.out.println("finish: " + finish);
+
+            long timeElapsed = finish - start;
+            times += timeElapsed;
+            //System.out.println("or-Performance (0.0,1.0) Elapsed Time: " + timeElapsed);
+        }
+
+        System.out.println("or-Performance (x1000) Average Elapsed Time: " + times/1000);
     }
 
     @Test
@@ -112,12 +132,23 @@ public class NeuronalNetworkPerformaceTest {
         setUpOr();
         double[] input = {1.0,1.0};
 
-        long start = System.currentTimeMillis();
-        double[] out = nn.compute(input);
-        long finish = System.currentTimeMillis();
-        long timeElapsed = finish - start;
+        long times = 0;
 
-        System.out.println("Or-Performance (1.0,1.0) Elapsed Time: "+timeElapsed);
+        for(int i = 0; i < 1000; i++) {
+            long start = System.currentTimeMillis();
+            //System.out.println("start: "+start);
+
+            double[] out = nn.compute(input);
+
+            long finish = System.currentTimeMillis();
+            //System.out.println("finish: " + finish);
+
+            long timeElapsed = finish - start;
+            times += timeElapsed;
+            //System.out.println("or-Performance (1.0,1.0) Elapsed Time: " + timeElapsed);
+        }
+
+        System.out.println("or-Performance (x1000) Average Elapsed Time: " + times/1000);
     }
 
 
@@ -126,12 +157,23 @@ public class NeuronalNetworkPerformaceTest {
         setUpNand();
         double[] input = {0.0,0.0};
 
-        long start = System.currentTimeMillis();
-        double[] out = nn.compute(input);
-        long finish = System.currentTimeMillis();
-        long timeElapsed = finish - start;
+        long times = 0;
 
-        System.out.println("nand-Performance (0.0,0.0) Elapsed Time: "+timeElapsed);
+        for(int i = 0; i < 1000; i++) {
+            long start = System.currentTimeMillis();
+            //System.out.println("start: "+start);
+
+            double[] out = nn.compute(input);
+
+            long finish = System.currentTimeMillis();
+            //System.out.println("finish: " + finish);
+
+            long timeElapsed = finish - start;
+            times += timeElapsed;
+            //System.out.println("nand-Performance (0.0,0.0) Elapsed Time: " + timeElapsed);
+        }
+
+        System.out.println("nand-Performance (x1000) Average Elapsed Time: " + times/1000);
     }
 
     @Test
@@ -139,12 +181,23 @@ public class NeuronalNetworkPerformaceTest {
         setUpNand();
         double[] input = {0.0,1.0};
 
-        long start = System.currentTimeMillis();
-        double[] out = nn.compute(input);
-        long finish = System.currentTimeMillis();
-        long timeElapsed = finish - start;
+        long times = 0;
 
-        System.out.println("nand-Performance (0.0,1.0) Elapsed Time: "+timeElapsed);
+        for(int i = 0; i < 1000; i++) {
+            long start = System.currentTimeMillis();
+            //System.out.println("start: "+start);
+
+            double[] out = nn.compute(input);
+
+            long finish = System.currentTimeMillis();
+            //System.out.println("finish: " + finish);
+
+            long timeElapsed = finish - start;
+            times += timeElapsed;
+            //System.out.println("nand-Performance (0.0,1.0) Elapsed Time: " + timeElapsed);
+        }
+
+        System.out.println("nand-Performance (x1000) Average Elapsed Time: " + times/1000);
     }
 
     @Test
@@ -152,12 +205,23 @@ public class NeuronalNetworkPerformaceTest {
         setUpNand();
         double[] input = {1.0,1.0};
 
-        long start = System.currentTimeMillis();
-        double[] out = nn.compute(input);
-        long finish = System.currentTimeMillis();
-        long timeElapsed = finish - start;
+        long times = 0;
 
-        System.out.println("nand-Performance (1.0,1.0) Elapsed Time: "+timeElapsed);
+        for(int i = 0; i < 1000; i++) {
+            long start = System.currentTimeMillis();
+            //System.out.println("start: "+start);
+
+            double[] out = nn.compute(input);
+
+            long finish = System.currentTimeMillis();
+            //System.out.println("finish: " + finish);
+
+            long timeElapsed = finish - start;
+            times += timeElapsed;
+            //System.out.println("nand-Performance (1.0,1.0) Elapsed Time: " + timeElapsed);
+        }
+
+        System.out.println("nand-Performance (x1000) Average Elapsed Time: " + times/1000);
     }
 
     @Test
@@ -165,12 +229,23 @@ public class NeuronalNetworkPerformaceTest {
         setUpXor();
         double[] input = {1.0,1.0};
 
-        long start = System.currentTimeMillis();
-        double[] out = nn.compute(input);
-        long finish = System.currentTimeMillis();
-        long timeElapsed = finish - start;
+        long times = 0;
 
-        System.out.println("xor-Performance (1.0,1.0) Elapsed Time: "+timeElapsed);
+        for(int i = 0; i < 1000; i++) {
+            long start = System.currentTimeMillis();
+            //System.out.println("start: "+start);
+
+            double[] out = nn.compute(input);
+
+            long finish = System.currentTimeMillis();
+            //System.out.println("finish: " + finish);
+
+            long timeElapsed = finish - start;
+            times += timeElapsed;
+            //System.out.println("xor-Performance (1.0,1.0) Elapsed Time: " + timeElapsed);
+        }
+
+        System.out.println("xor-Performance (x1000) Average Elapsed Time: " + times/1000);
     }
 
     @Test
@@ -178,12 +253,23 @@ public class NeuronalNetworkPerformaceTest {
         setUpXor();
         double[] input = {0.0,0.0};
 
-        long start = System.currentTimeMillis();
-        double[] out = nn.compute(input);
-        long finish = System.currentTimeMillis();
-        long timeElapsed = finish - start;
+        long times = 0;
 
-        System.out.println("xor-Performance (0.0,0.0) Elapsed Time: "+timeElapsed);
+        for(int i = 0; i < 1000; i++) {
+            long start = System.currentTimeMillis();
+            //System.out.println("start: "+start);
+
+            double[] out = nn.compute(input);
+
+            long finish = System.currentTimeMillis();
+            //System.out.println("finish: " + finish);
+
+            long timeElapsed = finish - start;
+            times += timeElapsed;
+            //System.out.println("xor-Performance (0.0,0.0) Elapsed Time: " + timeElapsed);
+        }
+
+        System.out.println("xor-Performance (x1000) Average Elapsed Time: " + times/1000);
     }
 
     @Test
@@ -192,17 +278,21 @@ public class NeuronalNetworkPerformaceTest {
         double[] input = {1.0,0.0};
 
         long times = 0;
+
         for(int i = 0; i < 1000; i++) {
             long start = System.currentTimeMillis();
-            System.out.println("start: "+start);
+            //System.out.println("start: "+start);
+
             double[] out = nn.compute(input);
+
             long finish = System.currentTimeMillis();
-            System.out.println("finish: " + finish);
+            //System.out.println("finish: " + finish);
+
             long timeElapsed = finish - start;
             times += timeElapsed;
-            System.out.println("xor-Performance (1.0,0.0) Elapsed Time: " + timeElapsed);
+            //System.out.println("xor-Performance (1.0,0.0) Elapsed Time: " + timeElapsed);
         }
-        System.out.println("xor-Performance (x1000) Average Elapsed Time: " + times);
+        System.out.println("xor-Performance (x1000) Average Elapsed Time: " + times/1000);
     }
 
     @AfterEach

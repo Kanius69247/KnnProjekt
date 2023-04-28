@@ -1,7 +1,5 @@
 package NeuronalNetwork;
 
-import jdk.jfr.Threshold;
-
 public class Neuron
 {
     private String unitType;
