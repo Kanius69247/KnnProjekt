@@ -56,7 +56,6 @@ class NeuronalNetworkErrorTest {
 
 
         nn_2.computeAll(CSVReader.read("Tests/csv/sample.csv"));
-
         double[] errors = nn_2.computeErrorAll(CSVReader.read("Tests/csv/actuall.csv"));
 
 //		System.out.println(Arrays.deepToString(nn_2.samples));

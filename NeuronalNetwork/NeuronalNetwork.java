@@ -179,6 +179,50 @@ public class NeuronalNetwork {
         return this.resultsAll;
     }
 
+    /**
+     * Trains the neuronal Network (edits the weights according to the calculated error value)
+     */
+    public void train(double[] input, double[][] expected, double learningRate)
+    {
+        //Calculate error (error von allen OutputNeuronen zsm (also 1 wert) oder zu jedem Output Neuron einen einzelnen Wert?)
+        //Error reduction (error minimieren indem Gewichte (oder auch Bias??) angepasst werden)
+        //Gewichtsanpassung anhand von learningRate (entscheided um wie viel Gewichtswert geändert wird)
+        //brauche wird die Sigmoid ActivationFunction??
+        double error = 1.0;
+
+        do
+        {
+            double[] results = compute(input); //Berechne eingabe
+            error = computeError(expected[expected.length-1], results); //berechne Fehler
+            backPropagation(expected, learningRate); //Backpropagation (anpassung der gewicht anhand des fehlerwertes)
+        }
+        while(error > 0.0);
+    }
+
+    /**
+     * Changes the weights of the network according to the calculated error value
+     * @param expected expected results of each neuron in each layer
+     * @param learningRate rate of changing the weights
+     */
+    private void backPropagation(double[][] expected, double learningRate)
+    {
+        for(int i = cells.length-1; i > 0; i--) //Rückwärts durch Layers iterieren außer input
+        {
+            for(int j = 0; j < cells[i].length; j++) //durch neuronen iterieren (vorwärts)
+            {
+                double neuronError = cells[i][j].getDerivative() * (this.results[i][j] - expected[i][j]);//compute(input, i) stat results[j]
+
+                //int weightIndex = (j + cells[i].length);//Zugriff weights zu derzeitigem neuron ??
+                //iteriere durch neuronen des vorherigen layer
+                for(int k = 0; k < cells[i-1].length; k++)
+                {
+                    weights[i-1][k][j] = -learningRate * (neuronError/weights[i-1][k][j]);//Berechnung neues gewicht zu derzeitigem neuron
+                    //-learningRate * (error/gewicht)
+                }
+            }
+        }
+    }
+
 
     /**
      * Initializing weights to first weights when it was created

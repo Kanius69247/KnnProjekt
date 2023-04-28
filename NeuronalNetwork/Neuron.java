@@ -11,8 +11,10 @@ public class Neuron
 
     public Neuron()
     {
-        unitType = "id"; //default value should be identity function
-        threshold = 0.0;
+        this.unitType = "id"; //default value should be identity function
+        this.threshold = 0.0;
+        this.result = 0.0;
+        this.derivative = 1.0;
     }
 
     /**
@@ -22,8 +24,6 @@ public class Neuron
      */
     public double compute(double input)
     {
-        this.result = 0.0;
-
         switch(this.unitType)
         {
             case "id":
