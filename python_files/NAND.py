@@ -39,10 +39,10 @@ prediction_NAND_1_0 = nn_NAND(new_input_1_0)
 prediction_NAND_1_1 = nn_NAND(new_input_1_1)
 
 # Measure average time needed for a prediction
-avg_time_NAND_0_0 = ti.timeit(lambda: nn_NAND(new_input_0_0), number=1000) / 1000 * 1e9
-avg_time_NAND_0_1 = ti.timeit(lambda: nn_NAND(new_input_0_1), number=1000) / 1000 * 1e9
-avg_time_NAND_1_0 = ti.timeit(lambda: nn_NAND(new_input_1_0), number=1000) / 1000 * 1e9
-avg_time_NAND_1_1 = ti.timeit(lambda: nn_NAND(new_input_1_1), number=1000) / 1000 * 1e9
+avg_time_NAND_0_0 = round(ti.timeit(lambda: nn_NAND(new_input_0_0), number=1000) / 1000 * 1e9, 1)
+avg_time_NAND_0_1 = round(ti.timeit(lambda: nn_NAND(new_input_0_1), number=1000) / 1000 * 1e9, 1)
+avg_time_NAND_1_0 = round(ti.timeit(lambda: nn_NAND(new_input_1_0), number=1000) / 1000 * 1e9, 1)
+avg_time_NAND_1_1 = round(ti.timeit(lambda: nn_NAND(new_input_1_1), number=1000) / 1000 * 1e9, 1)
 
 print("NAND Neural Net Prediction for Input 0,0 : ", prediction_NAND_0_0.item())
 print(f"Average Time needed for one prediction (NAND: Input 0,0): {avg_time_NAND_0_0} ns\n")

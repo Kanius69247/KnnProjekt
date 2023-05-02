@@ -39,10 +39,10 @@ prediction_OR_1_0 = nn_OR(new_input_1_0)
 prediction_OR_1_1 = nn_OR(new_input_1_1)
 
 # Measure average time needed for a prediction
-avg_time_OR_0_0 = ti.timeit(lambda: nn_OR(new_input_0_0), number=1000) / 1000 * 1e9
-avg_time_OR_0_1 = ti.timeit(lambda: nn_OR(new_input_0_1), number=1000) / 1000 * 1e9
-avg_time_OR_1_0 = ti.timeit(lambda: nn_OR(new_input_1_0), number=1000) / 1000 * 1e9
-avg_time_OR_1_1 = ti.timeit(lambda: nn_OR(new_input_1_1), number=1000) / 1000 * 1e9
+avg_time_OR_0_0 = round(ti.timeit(lambda: nn_OR(new_input_0_0), number=1000) / 1000 * 1e9, 1)
+avg_time_OR_0_1 = round(ti.timeit(lambda: nn_OR(new_input_0_1), number=1000) / 1000 * 1e9, 1)
+avg_time_OR_1_0 = round(ti.timeit(lambda: nn_OR(new_input_1_0), number=1000) / 1000 * 1e9, 1)
+avg_time_OR_1_1 = round(ti.timeit(lambda: nn_OR(new_input_1_1), number=1000) / 1000 * 1e9, 1)
 
 print("OR Neural Net Prediction for Input 0,0 : ", prediction_OR_0_0.item())
 print(f"Average Time needed for one prediction (OR: Input 0,0): {avg_time_OR_0_0} ns\n")
