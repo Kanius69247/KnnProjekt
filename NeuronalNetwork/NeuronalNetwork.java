@@ -182,45 +182,85 @@ public class NeuronalNetwork {
     /**
      * Trains the neuronal Network (edits the weights according to the calculated error value)
      */
-    public void train(double[] input, double[][] expected, double learningRate)
+    public void train(double[] input, double[] expected)
     {
-        //Calculate error (error von allen OutputNeuronen zsm (also 1 wert) oder zu jedem Output Neuron einen einzelnen Wert?)
-        //Error reduction (error minimieren indem Gewichte (oder auch Bias??) angepasst werden)
-        //Gewichtsanpassung anhand von learningRate (entscheided um wie viel Gewichtswert geändert wird)
-        //brauche wird die Sigmoid ActivationFunction??
+        double learningRate = 0.000001;
         double error = 1.0;
+        double lastError = 0.0;
 
         do
         {
-            double[] results = compute(input); //Berechne eingabe
-            error = computeError(expected[expected.length-1], results); //berechne Fehler
-            backPropagation(expected, learningRate); //Backpropagation (anpassung der gewicht anhand des fehlerwertes)
+            double[] results = compute(input); //Calculate input
+            error = computeError(expected, results); //calculate error value (sum of all errors from output)
+
+            if(lastError < error) //if error gets reduced, 1,1* learning rate
+                learningRate = 1.1 * learningRate; //optional: change to 1,2
+            else//if error values is not lower than before learning rate * 1/2
+                learningRate = 0.5 * learningRate;
+
+            backPropagation(expected, learningRate);
         }
         while(error > 0.0);
     }
 
     /**
      * Changes the weights of the network according to the calculated error value
-     * @param expected expected results of each neuron in each layer
+     * @param expectedOutput expected results of each neuron in each layer
      * @param learningRate rate of changing the weights
      */
-    private void backPropagation(double[][] expected, double learningRate)
+    private void backPropagation(double[] expectedOutput, double learningRate)
     {
-        for(int i = cells.length-1; i > 0; i--) //Rückwärts durch Layers iterieren außer input
-        {
-            for(int j = 0; j < cells[i].length; j++) //durch neuronen iterieren (vorwärts)
-            {
-                double neuronError = cells[i][j].getDerivative() * (this.results[i][j] - expected[i][j]);//compute(input, i) stat results[j]
+        double [][] neuronErrors = calcNeuronErrors(expectedOutput);
 
-                //int weightIndex = (j + cells[i].length);//Zugriff weights zu derzeitigem neuron ??
-                //iteriere durch neuronen des vorherigen layer
-                for(int k = 0; k < cells[i-1].length; k++)
+        //Zweite Iteration durch Network zum anpassen der gewichte (zwei Iterationen sollen wohl effizienter sein als eine einzelne)
+        for(int i = cells.length-1; i > 0; i--) //iterate through all layers but input (backwards)
+        {
+            for(int j = 0; j < cells[i].length-1; j++) //iterate through neurons (forward)
+            {
+                for(int k = 0; k < weights[i-1][j].length-1; k++)//iterate trough weights of current neuron
                 {
-                    weights[i-1][k][j] = -learningRate * (neuronError/weights[i-1][k][j]);//Berechnung neues gewicht zu derzeitigem neuron
-                    //-learningRate * (error/gewicht)
+                    System.out.println("Weight at i-1:"+(i-1)+" j:"+j+" k:"+k);
+                    System.out.println("old Value:"+weights[i-1][j][k]);
+                    //calculate the new Weight value
+                    weights[i-1][k][j] = learningRate * results[i][j] * neuronErrors[i][j];
+                    System.out.println("new Value:"+weights[i-1][j][k]);
                 }
             }
         }
+    }
+
+    /**
+     * Calculates the Error Value of each Neuron by using the Derivative on each neuron's output
+     * @param expectedOutput expected Output of the neurons from output layer
+     * @return Array matching network structure with error value to each neuron
+     */
+    private double[][] calcNeuronErrors(double[] expectedOutput) {
+        double[][] neuronErrors = new double[cells.length][];
+
+        //First backwards iteration to calculate all Error values of all neurons
+        for (int i = cells.length - 1; i > 0; i--) //iterate through all layers but input (backward)
+        {
+            neuronErrors[i] = new double[cells[i].length];//Initialize Array of neuron Errors
+
+            for (int j = 0; j < cells[i].length; j++) //iterate through neurons (forward)
+            {
+                double neuronError = 0.0;
+                if (i == cells.length - 1)//If layer of Output neuron f'(net) * error
+                    neuronError = cells[i][j].getDerivative() * (this.results[i][j] - expectedOutput[j]);
+                else//if not output layer f'(net) * sum (Sk Wjk)
+                {
+                    double sum = 0.0; //Summe (der neuronen fehler * Ausgangs gewichte des momentatnen neuron)
+                    //iterate through i+1. layer
+                    for (int k = 0; k < cells[i + 1].length - 1; k++) {
+                        //sum up NeuronError * weight to neuron
+                        sum += neuronErrors[i + 1][k] * weights[i][j][k];
+                    }
+                    neuronError = cells[i][j].getDerivative() * sum;
+                }
+                neuronErrors[i][j] = neuronError;
+            }
+        }
+        return neuronErrors;
     }
 
 

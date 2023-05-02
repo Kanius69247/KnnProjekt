@@ -42,15 +42,12 @@ public class NeuronalNetworkTrainXORTest {
     @Test
     public void xor_test_0_0() {
         double[] in = { 0.0, 0.0 } ; //Input
-        double[][] expected = {{0.0, 0.0, 0.0},
-                {0.0, 1.0, 0.0, 1.0},
-                {1.0, 1.0, 1.0},
-                {1.0}};
+        double[] expected = {1.0};
 
         double[] out;// = new double[]{0}; //Expected output for 0-0 is 0
 
         //do training
-        nn.train(in, expected, 0.01);
+        nn.train(in, expected);
 
         out = nn.compute(in);
 
@@ -62,13 +59,10 @@ public class NeuronalNetworkTrainXORTest {
     @Test
     public void xor_test_1_0() {
         double[] in = { 1.0, 0.0 } ; //Input
-        double[][] expected = {{0.0, 1.0, 0.0},
-                {0.0, 1.0, 1.0, 1.0},
-                {1.0, 0.0, 1.0},
-                {1.0}};
+        double[] expected = {1.0};
 
         //do training
-        nn.train(in, expected, 0.01);
+        nn.train(in, expected);
 
         double[] out = nn.compute(in);
 
@@ -80,9 +74,12 @@ public class NeuronalNetworkTrainXORTest {
     @Test
     public void xor_test_0_1() {
         double[] in = { 0.0, 1.0 } ; //Input
-        double[] out = new double[]{0}; //Expected output for 0-1 is 0
+        double[] expected = new double[]{0}; //Expected output for 0-1 is 0
 
         //do training
+        nn.train(in, expected);
+
+        double[] out = nn.compute(in);
 
         //out should be 1
         assertEquals(1, out[0]);//Check calculated value matches expected value
