@@ -1,6 +1,6 @@
 package Tests;
 
-import NeuronalNetwork.NeuronalNetwork;
+import NeuronalNetwork.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,10 +43,10 @@ public class NeuronalNetworkXORTest {
         w[2][2][0] = 0.0; //Bias (deactivated)
 
         nn.setWeights(w);
-        nn.setUnitType(1, 1, "stepfun", -0.7);
-        nn.setUnitType(2, 0, "stepfun", -0.7);
-        nn.setUnitType(2, 1, "stepfun", -0.7);
-        nn.setUnitType(3, 0, "stepfun", -0.7);
+        nn.setUnitType(1, 1, UnitType.stepfun, -0.7);
+        nn.setUnitType(2, 0, UnitType.stepfun, -0.7);
+        nn.setUnitType(2, 1, UnitType.stepfun, -0.7);
+        nn.setUnitType(3, 0, UnitType.stepfun, -0.7);
     }
 
     @Test

@@ -180,7 +180,9 @@ public class NeuronalNetwork {
     }
 
     /**
-     * Trains the neuronal Network (edits the weights according to the calculated error value)
+     * Trains the neuronal Network via backpropagation
+     * @param input input data
+     * @param expected expected output data
      */
     public void train(double[] input, double[] expected)
     {
@@ -213,16 +215,17 @@ public class NeuronalNetwork {
         double [][] neuronErrors = calcNeuronErrors(expectedOutput);
 
         //Zweite Iteration durch Network zum anpassen der gewichte (zwei Iterationen sollen wohl effizienter sein als eine einzelne)
-        for(int i = cells.length-1; i > 0; i--) //iterate through all layers but input (backwards)
+        for(int i = cells.length-1; i > 1; i--) //iterate through all layers but input (backwards)
         {
-            for(int j = 0; j < cells[i].length-1; j++) //iterate through neurons (forward)
+            for(int j = 0; j < cells[i-1].length; j++) //iterate through neurons (forward)
             {
-                for(int k = 0; k < weights[i-1][j].length-1; k++)//iterate trough weights of current neuron
+                for(int k = 0; k < weights[i-1][j].length; k++)//iterate trough weights of current neuron
                 {
                     System.out.println("Weight at i-1:"+(i-1)+" j:"+j+" k:"+k);
                     System.out.println("old Value:"+weights[i-1][j][k]);
+                    System.out.println("learningRate: "+learningRate+", results[i-1][j]: "+results[i-1][j]+", neuronErrors[i-1][j]: "+neuronErrors[i-1][j]);
                     //calculate the new Weight value
-                    weights[i-1][k][j] = learningRate * results[i][j] * neuronErrors[i][j];
+                    weights[i-1][j][k] = learningRate * results[i-1][j] * neuronErrors[i-1][j];
                     System.out.println("new Value:"+weights[i-1][j][k]);
                 }
             }
@@ -246,16 +249,20 @@ public class NeuronalNetwork {
             {
                 double neuronError = 0.0;
                 if (i == cells.length - 1)//If layer of Output neuron f'(net) * error
+                {
                     neuronError = cells[i][j].getDerivative() * (this.results[i][j] - expectedOutput[j]);
+                    System.out.println("NeuronError of neuron["+i+"]["+j+"]: " + neuronError+ " = cells[i][j].getDerivative: "+cells[i][j].getDerivative() + "* (result[i][j]: "+this.results[i][j]+" - expectedOutput[j]: "+expectedOutput[j]+")");
+                }
                 else//if not output layer f'(net) * sum (Sk Wjk)
                 {
-                    double sum = 0.0; //Summe (der neuronen fehler * Ausgangs gewichte des momentatnen neuron)
+                    double sum = 0.0; //Summe (der neuronen fehler * Ausgangs gewichte des momentanen neuron)
                     //iterate through i+1. layer
-                    for (int k = 0; k < cells[i + 1].length - 1; k++) {
+                    for (int k = 0; k < cells[i + 1].length; k++) {
                         //sum up NeuronError * weight to neuron
                         sum += neuronErrors[i + 1][k] * weights[i][j][k];
                     }
                     neuronError = cells[i][j].getDerivative() * sum;
+                    System.out.println("NeuronError of neuron["+i+"]["+j+"]: "+ neuronError + " = cells[i][j].getDerivative: "+cells[i][j].getDerivative() + " * sum:" + sum );
                 }
                 neuronErrors[i][j] = neuronError;
             }
@@ -277,7 +284,7 @@ public class NeuronalNetwork {
      * @param neuron
      * @param function
      */
-    public void setUnitType(int layer, int neuron, String function) {
+    public void setUnitType(int layer, int neuron, UnitType function) {
         if(layer > cells.length || neuron > cells[layer].length)
             throw new IllegalArgumentException("Layer/Neuron index does not match Network structure!");
 
@@ -291,7 +298,7 @@ public class NeuronalNetwork {
      * @param function
      * @param threshold offset of function
      */
-    public void setUnitType(int layer, int neuron, String function, double threshold) {
+    public void setUnitType(int layer, int neuron, UnitType function, double threshold) {
         if(layer > cells.length || neuron > cells[layer].length)
             throw new IllegalArgumentException("Layer/Neuron index does not match Network structure!");
 

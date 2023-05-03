@@ -1,6 +1,6 @@
 package Tests;
 
-import NeuronalNetwork.NeuronalNetwork;
+import NeuronalNetwork.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,9 +36,9 @@ public class NeuronalNetworkTrafficTest {
         nn.setWeights(w);
 
         //Changing Neuron Types
-        nn.setUnitType(1,0,"logistic");
-        nn.setUnitType(1,1,"logistic");
-        nn.setUnitType(1,2,"logistic");
+        nn.setUnitType(1,0, UnitType.logistic);
+        nn.setUnitType(1,1, UnitType.logistic);
+        nn.setUnitType(1,2, UnitType.logistic);
 
     }
 

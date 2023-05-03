@@ -2,14 +2,14 @@ package NeuronalNetwork;
 
 public class Neuron
 {
-    private String unitType;
+    private UnitType unitType;
     private double threshold;
     private double derivative;
     private double result;
 
     public Neuron()
     {
-        this.unitType = "id"; //default value should be identity function
+        this.unitType = UnitType.id; //default value should be identity function
         this.threshold = 0.0;
         this.result = 0.0;
         this.derivative = 1.0;
@@ -24,19 +24,19 @@ public class Neuron
     {
         switch(this.unitType)
         {
-            case "id":
+            case id:
                 this.result = UnitTypeFunctions.id(input);
                 break;
-            case "logistic":
+            case logistic:
                 this.result = UnitTypeFunctions.logistic(input);
                 break;
-            case "tanh":
+            case tanh:
                 this.result = UnitTypeFunctions.tanh(input);
                 break;
-            case "heaviside":
+            case heaviside:
                 this.result = UnitTypeFunctions.heaviside(input, threshold);
                 break;
-            case "stepfun":
+            case stepfun:
                 this.result = UnitTypeFunctions.perceptronStepfun(input, threshold);
                 break;
         }
@@ -51,19 +51,19 @@ public class Neuron
     public double getDerivative() {
         switch(this.unitType)
         {
-            case "id":
+            case id:
                 this.derivative = UnitTypeFunctions.derivationId(this.result);
                 break;
-            case "logistic":
+            case logistic:
                 this.derivative = UnitTypeFunctions.derivationLogistic(this.result);
                 break;
-            case "tanh":
+            case tanh:
                 this.derivative = UnitTypeFunctions.derivationTanh(this.result);
                 break;
-            case "heaviside":
+            case heaviside:
                 this.derivative = UnitTypeFunctions.derivationHeaviside(this.result);
                 break;
-            case "stepfun":
+            case stepfun:
                 this.derivative = UnitTypeFunctions.derivationPerceptronStepfun(this.result);
                 break;
         }
@@ -74,19 +74,8 @@ public class Neuron
      * Sets the unit type used in compute
      * @param unitType unitType
      */
-    public void setUnitType(String unitType)
+    public void setUnitType(UnitType unitType)
     {
-        String[] activateFun = {"id", "logistic", "tanh", "heaviside", "stepfun"};
-        boolean found = false;
-        for (String s : activateFun) {
-            if (s.contains(unitType)) {
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            throw new IllegalArgumentException("Invalid type of activate function!\n(Vaild ption: id, logistic, tanh, heaviside, perceptronStepfun");
-        }
         this.unitType = unitType;
     }
 
@@ -95,7 +84,7 @@ public class Neuron
      * @param unitType unitType
      * @param threshold threshold
      */
-    public void setUnitType(String unitType, double threshold)
+    public void setUnitType(UnitType unitType, double threshold)
     {
         setUnitType(unitType);
         this.threshold = threshold;
@@ -107,7 +96,7 @@ public class Neuron
         String result = "";
 
         result += "unit: "+ unitType + ", ";
-        if(unitType.equals("stepfun"))
+        if(unitType.toString().equals("stepfun"))
             result += this.threshold + ", ";
 
         return result;

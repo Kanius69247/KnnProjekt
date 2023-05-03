@@ -1,6 +1,6 @@
 package Tests;
 
-import NeuronalNetwork.NeuronalNetwork;
+import NeuronalNetwork.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -110,11 +110,11 @@ public class NeuronalNetworkHalfAdderTest {
         nn.setWeights(weights);
 
         //Changing Neuron Types
-        nn.setUnitType(2,0,"stepfun",1.5);
-        nn.setUnitType(2,2,"stepfun", -0.7);
-        nn.setUnitType(3,1,"stepfun", -0.7);
-        nn.setUnitType(3,2,"stepfun", -0.7);
-        nn.setUnitType(4,1,"stepfun", -0.7);
+        nn.setUnitType(2,0, UnitType.stepfun,1.5);
+        nn.setUnitType(2,2,UnitType.stepfun, -0.7);
+        nn.setUnitType(3,1,UnitType.stepfun, -0.7);
+        nn.setUnitType(3,2,UnitType.stepfun, -0.7);
+        nn.setUnitType(4,1,UnitType.stepfun, -0.7);
     }
 
     @Test

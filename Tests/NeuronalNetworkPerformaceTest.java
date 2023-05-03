@@ -1,6 +1,6 @@
 package Tests;
 
-import NeuronalNetwork.NeuronalNetwork;
+import NeuronalNetwork.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ public class NeuronalNetworkPerformaceTest {
         weights[0][2][0] = 0.0; //deactivate BIAS NeuronalNetwork.Neuron
 
         nn.setWeights(weights);
-        nn.setUnitType(1, 0, "stepfun", 0.5);
+        nn.setUnitType(1, 0, UnitType.stepfun, 0.5);
     }
 
     public void setUpNand() {
@@ -39,7 +39,7 @@ public class NeuronalNetworkPerformaceTest {
         weights[0][2][0] = 0.0; //deactivate BIAS NeuronalNetwork.Neuron
 
         nn.setWeights(weights);
-        nn.setUnitType(1, 0, "stepfun", -0.7);
+        nn.setUnitType(1, 0, UnitType.stepfun, -0.7);
     }
 
     @BeforeEach
@@ -73,10 +73,10 @@ public class NeuronalNetworkPerformaceTest {
         weights[2][2][0] = 0.0; //Bias (deactivated)
 
         nn.setWeights(weights);
-        nn.setUnitType(1, 1, "stepfun", -0.7);
-        nn.setUnitType(2, 0, "stepfun", -0.7);
-        nn.setUnitType(2, 1, "stepfun", -0.7);
-        nn.setUnitType(3, 0, "stepfun", -0.7);
+        nn.setUnitType(1, 1, UnitType.stepfun, -0.7);
+        nn.setUnitType(2, 0, UnitType.stepfun, -0.7);
+        nn.setUnitType(2, 1, UnitType.stepfun, -0.7);
+        nn.setUnitType(3, 0, UnitType.stepfun, -0.7);
     }
 
     @Test
