@@ -1,4 +1,4 @@
-import NeuronalNetwork.NeuronalNetwork;
+import NeuronalNetwork.*;
 
 import java.util.Arrays;
 
@@ -21,8 +21,8 @@ public class Main
  		nn.create( strukturAND );
  		double [][][] w = nn.getWeights();
 
-		nn.setUnitType(1, 0, "logistic");
-		nn.setUnitType(1, 0, "stepfun", 1.5);
+		nn.setUnitType(1, 0, UnitType.logistic);
+		nn.setUnitType(1, 0, UnitType.stepfun, 1.5);
 
 		nn.initializeRandomWeights();
 
