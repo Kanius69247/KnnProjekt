@@ -19,7 +19,7 @@ public class NeuronalNetworkTrainXORTest {
 
         //Create network with random weights
         //set Input and Expected Output
-        //Let network train and change it`s weights on itś on till expected output is calculated by nn
+        //Let network train and change it`s weights on its own till expected output is calculated by nn
 
         //Set the correct UnitTypes with the correct Threshold
         nn.setUnitType(1, 1, UnitType.stepfun, -0.7);

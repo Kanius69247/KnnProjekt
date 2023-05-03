@@ -21,7 +21,7 @@ public class NeuronalNetworkTrainTrafficLightTest {
 
         //Create network with random weights
         //set Input and Expected Output
-        //Let network train and change it`s weights on itś on till expected output is calculated by nn
+        //Let network train and change it`s weights on its own till expected output is calculated by nn
         nn.setUnitType(1,0, UnitType.logistic);
         nn.setUnitType(1,1, UnitType.logistic);
         nn.setUnitType(1,2, UnitType.logistic);
