@@ -42,7 +42,7 @@ public class NeuronalNetworkTrainXORTest {
     @Test
     public void xor_test_0_0() {
         double[] in = { 0.0, 0.0 } ; //Input
-        double[] expected = {1.0};
+        double[] expected = {0.0};
 
         double[] out;// = new double[]{0}; //Expected output for 0-0 is 0
 
@@ -74,7 +74,7 @@ public class NeuronalNetworkTrainXORTest {
     @Test
     public void xor_test_0_1() {
         double[] in = { 0.0, 1.0 } ; //Input
-        double[] expected = new double[]{0}; //Expected output for 0-1 is 0
+        double[] expected = new double[]{1.0}; //Expected output for 0-1 is 0
 
         //do training
         nn.train(in, expected);

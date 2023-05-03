@@ -15,13 +15,14 @@ public class CSVReader {
      */
     public static double[][] read(String filePath){
         String line = "";
-        String csvSplitBy = ",";
+        String csvSplitBy = ";";
         List<double[]> dataList = new ArrayList<>(); // initialize a list to store the data
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 
             while ((line = br.readLine()) != null) {
 
+                line = line.replaceAll("\\s+","");
                 String[] pre_values = line.split(csvSplitBy);
                 double[] values = new double[pre_values.length];
                 for (int i = 0; i < pre_values.length; i++){
