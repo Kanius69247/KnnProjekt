@@ -5,6 +5,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NeuronalNetworkTrainTrafficLightTest {
@@ -41,7 +42,7 @@ public class NeuronalNetworkTrainTrafficLightTest {
         double[] out = nn.compute(in);
 
         //out should be 0
-        assertEquals(out, exOut);//Check calculated value matches expected value
+        assertArrayEquals(exOut, out);//Check calculated value matches expected value
     }
 
     @Test
@@ -56,7 +57,7 @@ public class NeuronalNetworkTrainTrafficLightTest {
         double[] out = nn.compute(in);
 
         //out should be 0
-        assertEquals(out, exOut);//Check calculated value matches expected value
+        assertArrayEquals(exOut, out);//Check calculated value matches expected value
     }
 
 

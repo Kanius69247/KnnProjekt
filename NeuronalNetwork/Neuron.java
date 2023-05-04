@@ -7,6 +7,9 @@ public class Neuron
     private double derivative;
     private double result;
 
+    /**
+     * Initializes a new instance of Neuron
+     */
     public Neuron()
     {
         this.unitType = UnitType.id; //default value should be identity function
@@ -90,14 +93,18 @@ public class Neuron
         this.threshold = threshold;
     }
 
+    /**
+     * returns a string representation of the neuron
+     * @return neuron data as string
+     */
     @Override
     public String toString()
     {
         String result = "";
 
-        result += "unit: "+ unitType + ", ";
+        result += "unit: "+ unitType + ", result: "+this.result;
         if(unitType.toString().equals("stepfun"))
-            result += this.threshold + ", ";
+            result += " ,Threshold " + this.threshold;
 
         return result;
 
