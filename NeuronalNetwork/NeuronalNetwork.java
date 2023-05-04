@@ -104,7 +104,7 @@ public class NeuronalNetwork {
         //fill in input data/bias
         for (int i = 0; i <= data.length; i++) {
             sums[0][i] = (i == data.length) ? bias : data[i];
-            results[0][i] = (i == data.length) ? bias : data[i];
+            results[0][i] = (i == data.length) ? bias : cells[0][i].compute(data[i]);
         }
 
         for (int i = 0; i < n; i++) {//iterate layers
@@ -191,10 +191,11 @@ public class NeuronalNetwork {
      * @param expected expected output data
      */
     public void train(double[] input, double[] expected) {
-        double learningRate = 0.001;
+        double learningRate = 0.000001;
         double error = 1.0;
         double lastError = 1.0;
         int epoche = 0;
+
         do{
 
             double[] results = compute(input); //Calculate input
@@ -214,8 +215,8 @@ public class NeuronalNetwork {
             }catch (Exception ex){}*/
             backPropagation(expected, learningRate);
             epoche++;
-            System.out.println(epoche);
-          //  System.out.print(this.toString());
+      //      System.out.println(epoche);
+         //   System.out.print(this.toString());
         } while(error > 0.05);
     }
 
@@ -234,7 +235,7 @@ public class NeuronalNetwork {
 
                 for(int k = 0; k < weights[i-1][j].length; k++) {//iterate trough weights of current neuron
 
-                    //System.out.println("Changing Weight at i-1:"+(i-1)+" j:"+j+" k:"+k);
+                   // System.out.println("Changing Weight at i-1:"+(i-1)+" j:"+j+" k:"+k);
                     //calculate the new Weight value
                     double deltaWeight = learningRate * results[i-1][j] * neuronErrors[i-1][j];
                     weights[i-1][j][k] -= deltaWeight;
@@ -270,7 +271,7 @@ public class NeuronalNetwork {
                     }
                     neuronError = cells[i][j].getDerivative() * sum;
                 }
-                //System.out.println("Calc neuron error for neuron["+i+"]["+j+"]");
+               // System.out.println("Calc neuron error for neuron["+i+"]["+j+"]");
                 neuronErrors[i][j] = neuronError;
             }
         }
