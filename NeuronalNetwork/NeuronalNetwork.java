@@ -390,7 +390,11 @@ public class NeuronalNetwork {
         String s = "";
 
         for(int i = 0; i < cells[layer].length; i++) {
-            if(i == cells[layer].length - 1 && layer != weights.length) {
+            if(i == cells[layer].length - 1 && layer == weights.length) {
+                s += "Layer: " + layer + " Neuron: " + i + " " + cells[layer][i].toString();
+                continue;
+            }
+            if(i == cells[layer].length - 1) {
                 s += "Layer: " + layer + " Bias: " + i + " " + cells[layer][i].toString();
                 continue;
             }
