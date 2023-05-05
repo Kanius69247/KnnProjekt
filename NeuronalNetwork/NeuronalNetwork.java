@@ -363,4 +363,39 @@ public class NeuronalNetwork {
         return result.toString();
     }
 
+    public String toString2() {
+        String s = "[";
+
+        for(int i = 0; i < weights.length; i++) {
+            s += activationString(i) + "\n";
+            s += "[";
+            for(int j = 0; j < weights[i].length; j++) {
+                if(j == weights[i].length - 1 && i == weights.length - 1) {
+                    s += Arrays.toString(weights[i][j]) + "]";
+                    continue;
+                }
+                if(j == weights[i].length - 1) {
+                    s += Arrays.toString(weights[i][j]) + "],\n";
+                    continue;
+                }
+                s += Arrays.toString(weights[i][j]) + ",\n";
+            }
+        }
+
+        s += "]";
+        return s;
+    }
+
+    private String activationString(int layer) {
+        String s = "";
+
+        for(int i = 0; i < cells[layer].length; i++) {
+            if(i == cells[layer].length - 1) {
+                s += "Layer: " + layer + " Bias: " + i + " " + cells[layer][i].toString();
+                continue;
+            }
+            s += "Layer: " + layer + " Neuron: " + i + " " + cells[layer][i].toString() + "||";
+        }
+        return s;
+    }
 }
