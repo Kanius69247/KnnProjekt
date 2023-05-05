@@ -76,7 +76,6 @@ public class CSVReader {
         for(int i = 0; i < data[0].length - 1; i++) {
             number_of_weight_arrays += (int)data[0][i];
         }
-        System.out.println(number_of_weight_arrays);
 
         double[][] csv_weights = new double[number_of_weight_arrays][];
         double[][] csv_biases = new double[data[0].length - 1][];
