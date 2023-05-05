@@ -6,7 +6,8 @@ import java.util.Arrays;
 public class Main2 {
     public static void main(String[] args) {
         //just change filepath, neural net creation and weight setting is automated
-        double[][] data = CSVReader.read("Tests/csv/Test.csv");
+        double[][] data = CSVReader.read("Tests/csv/TrafficLightStructure.csv");
+        double[][] results = CSVReader.read("Tests/csv/TrafficLightResults.csv");
         NeuronalNetwork nn = new NeuronalNetwork();
         int[] structure = new int[data[0].length];
 
@@ -16,9 +17,22 @@ public class Main2 {
 
         nn.create(structure);
 
-        double[][][]weights = CSVReader.formatWeightMatrix(data);
-        nn.setWeights(weights);
+        nn.setWeights(CSVReader.formatWeightMatrix(data));
 
-        System.out.println("\n" + nn.toString2());
+        System.out.println(nn.toString2() + "\n");
+
+        double[][][] formatted_results = CSVReader.formatResultMatrix(structure, results);
+
+        for(int i = 0; i < formatted_results.length; i++) {
+            for(int j = 0; j < formatted_results[i].length; j++) {
+                if(j == 0) {
+                    System.out.println("Input " + (i + 1) + ":\n" + Arrays.toString(formatted_results[i][j]));
+                    continue;
+                }
+                else if(j == 1) {
+                    System.out.println("Output " + (i + 1) + ":\n" + Arrays.toString(formatted_results[i][j]) + "\n");
+                }
+            }
+        }
     }
 }

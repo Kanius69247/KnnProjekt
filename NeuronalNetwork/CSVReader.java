@@ -67,7 +67,7 @@ public class CSVReader {
 
     /**
      * formats a dataset (type double[][]) to a dataset (type double[][][]), which equals the weights dataset used in the NeuronalNetwork class
-     * the input (data) has to be extracted out of a csv file which has the special format given in our lecture
+     * the input (data) has to be extracted out of a csv file which has the special neural net format given in our lecture
      * @param data dataset which was read in by the read() method
      * @return dataset that equals the weights dataset used in the NeuronalNetwork class
      */
@@ -116,6 +116,41 @@ public class CSVReader {
             formatted_weights[i] = tmp;
         }
         return formatted_weights;
+    }
+
+    /**
+     * formats a dataset (type double[][]) to a dataset (type double[][][])
+     * the input (data) has to be extracted out of a csv file which has the special result format given in our lecture
+     * @param results dataset which was read in by the read() method
+     * @param structure dataset containing the neural nets structure
+     * @return dataset that contains all input output pairs in a three-dimensional array
+     */
+    public static double[][][] formatResultMatrix(int[] structure, double[][] results) {
+        int in = structure[0];
+        double[][][] formatted_results = new double[results.length][2][];
+        double[][] tmp;
+
+        for(int i = 0; i < formatted_results.length; i++) {
+            tmp = split(in, results[i]);
+            formatted_results[i][0] = tmp[0];
+            formatted_results[i][1] = tmp[1];
+        }
+        return formatted_results;
+    }
+
+    private static double[][] split(int index, double[] array) {
+        double[][] splittedArray = new double[2][];
+        double[] first = new double[index];
+        double[] second = new double[array.length - index];
+        for(int i = 0; i < first.length; i++) {
+            first[i] = array[i];
+        }
+        for(int i = 0; i < second.length; i++) {
+            second[i] = array[i + index];
+        }
+        splittedArray[0] = first;
+        splittedArray[1] = second;
+        return splittedArray;
     }
 
     private static double[] getPlusOneValueArray(double[] data) {
