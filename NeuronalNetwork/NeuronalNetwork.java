@@ -364,7 +364,7 @@ public class NeuronalNetwork {
     }
 
     public String toString2() {
-        String s = "[";
+        String s = "[(Input)";
 
         for(int i = 0; i < weights.length; i++) {
             s += activationString(i) + "\n";
@@ -382,7 +382,7 @@ public class NeuronalNetwork {
             }
         }
 
-        s += "]";
+        s += "\n" + "(Output)" + activationString(weights.length) + "]";
         return s;
     }
 
@@ -390,7 +390,7 @@ public class NeuronalNetwork {
         String s = "";
 
         for(int i = 0; i < cells[layer].length; i++) {
-            if(i == cells[layer].length - 1) {
+            if(i == cells[layer].length - 1 && layer != weights.length) {
                 s += "Layer: " + layer + " Bias: " + i + " " + cells[layer][i].toString();
                 continue;
             }
