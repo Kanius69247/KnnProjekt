@@ -128,6 +128,30 @@ public class NeuronalNetworkPerformaceTest {
     }
 
     @Test
+    public void orPerfomanceTest1_0() {
+        setUpOr();
+        double[] input = {1.0,0.0};
+
+        long times = 0;
+
+        for(int i = 0; i < 1000; i++) {
+            long start = System.nanoTime();
+            //System.out.println("start: "+start);
+
+            double[] out = nn.compute(input);
+
+            long finish = System.nanoTime();
+            //System.out.println("finish: " + finish);
+
+            long timeElapsed = finish - start;
+            times += timeElapsed;
+            //System.out.println("or-Performance (0.0,1.0) Elapsed Time: " + timeElapsed);
+        }
+
+        System.out.println("or-Performance (1-0) Average Elapsed Time: " + times/1000+ " ns");
+    }
+
+    @Test
     public void orPerfomanceTest1_1() {
         setUpOr();
         double[] input = {1.0,1.0};
@@ -198,6 +222,30 @@ public class NeuronalNetworkPerformaceTest {
         }
 
         System.out.println("nand-Performance (0-1) Average Elapsed Time: " + times/1000+ " ns");
+    }
+
+    @Test
+    public void nandPerfomanceTest1_0() {
+        setUpNand();
+        double[] input = {1.0,0.0};
+
+        long times = 0;
+
+        for(int i = 0; i < 1000; i++) {
+            long start = System.nanoTime();
+            //System.out.println("start: "+start);
+
+            double[] out = nn.compute(input);
+
+            long finish = System.nanoTime();
+            //System.out.println("finish: " + finish);
+
+            long timeElapsed = finish - start;
+            times += timeElapsed;
+            //System.out.println("nand-Performance (0.0,1.0) Elapsed Time: " + timeElapsed);
+        }
+
+        System.out.println("nand-Performance (1-0) Average Elapsed Time: " + times/1000+ " ns");
     }
 
     @Test
@@ -293,6 +341,29 @@ public class NeuronalNetworkPerformaceTest {
             //System.out.println("xor-Performance (1.0,0.0) Elapsed Time: " + timeElapsed);
         }
         System.out.println("xor-Performance (1-0) Average Elapsed Time: " + times/1000 + " ns");
+    }
+
+    @Test
+    public void xorPerfomanceTest0_1() {
+        setUpXor();
+        double[] input = {0.0,1.0};
+
+        long times = 0;
+
+        for(int i = 0; i < 1000; i++) {
+            long start = System.nanoTime();
+            //System.out.println("start: "+start);
+
+            double[] out = nn.compute(input);
+
+            long finish = System.nanoTime();
+            //System.out.println("finish: " + finish);
+
+            long timeElapsed = finish - start;
+            times += timeElapsed;
+            //System.out.println("xor-Performance (1.0,0.0) Elapsed Time: " + timeElapsed);
+        }
+        System.out.println("xor-Performance (0-1) Average Elapsed Time: " + times/1000 + " ns");
     }
 
     @AfterEach
