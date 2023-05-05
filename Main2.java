@@ -34,5 +34,9 @@ public class Main2 {
                 }
             }
         }
+
+        nn.train(formatted_results[0][0], formatted_results[0][1]);
+
+        System.out.println(nn.toString2());
     }
 }
