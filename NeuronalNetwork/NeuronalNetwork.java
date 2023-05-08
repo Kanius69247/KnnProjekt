@@ -21,7 +21,7 @@ public class NeuronalNetwork {
      * Initializes a new instance of NeuronalNetwork
      */
     public NeuronalNetwork() {
-        this.bias = 0;
+        this.bias =0;
         this.biasWeight = 1;
     }
 
@@ -110,10 +110,10 @@ public class NeuronalNetwork {
         for (int i = 0; i < n; i++) {//iterate layers
             //System.out.println("i: "+i);
             for (int j = 0; j < results[i+1].length; j++) {//iterate neurons of the layer
-                double sum = 0;
+                double sum = 0;//bias;
 
                 if (i < n -1 && j == (results[i+1].length -1)){
-                    sum = 1;
+                    sum = bias;
                 } else {
                     for (int k = 0; k < results[i].length; k++) {//iterate the weights
                         sum += results[i][k] * weights[i][k][j];
@@ -144,13 +144,14 @@ public class NeuronalNetwork {
      */
     public double computeError(double[] expected, double[] actual){
         double sum = 0;
+        double n = expected.length;
 
         for(int i = 0; i < expected.length; i++){
-            sum += Math.pow((expected[i] - actual[i]), 2);
+            sum += (1/n) * Math.pow((expected[i] - actual[i]), 2);
         }
 
         //return sum/expected.length;//nicht eher *0.5 statt /n
-        return sum*0.5;
+        return sum;
     }
 
     /**
@@ -191,33 +192,48 @@ public class NeuronalNetwork {
      * @param expected expected output data
      */
     public void train(double[] input, double[] expected) {
-        double learningRate = 0.000001;
+        double initLearningRate = 0.000001;
+        double learningRate = initLearningRate;
+        double targetError = 0.00001;
         double error = 1.0;
         double lastError = 1.0;
         int epoche = 0;
 
-        do{
+        double[] InitResults = compute(input); //Calculate input
+        error = computeError(expected, InitResults); //calculate error value (sum of all errors from output)
+        lastError = computeError(expected, InitResults); //calculate error value (sum of all errors from output)
+
+        System.out.println("With learning rate("+initLearningRate+"),");
+        System.out.println("Start train...\n");
+
+        while(error > targetError && epoche < 2000000){
 
             double[] results = compute(input); //Calculate input
             error = computeError(expected, results); //calculate error value (sum of all errors from output)
-           // System.out.print(this.toString());
 
-            if(lastError > error) //if error gets reduced, 1,1* learning rate
-                learningRate = 1.1 * learningRate; //optional: change to 1,2
-            else if(lastError < error)//if error values is not lower than before learning rate * 1/2
-                learningRate = 0.5 * learningRate;
+            double diff = lastError - error;
 
-            if(error != lastError)
-                System.out.println("error: " + error);
+            if(epoche > 25){
+                if(0<diff && diff < learningRate) { //if reduced error is too low
+                    learningRate = learningRate * 1.1;
+                } else {
+                    learningRate = initLearningRate;
+                }
+            }
+
             lastError = error;
-           /* try {
-                Thread.sleep(10);
-            }catch (Exception ex){}*/
             backPropagation(expected, learningRate);
             epoche++;
-      //      System.out.println(epoche);
-         //   System.out.print(this.toString());
-        } while(error > 0.05);
+        }
+
+        System.out.println("Train done!\n..After iteration #"+epoche);
+
+        System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+        System.out.println("-Target error: " + targetError);
+        System.out.println(" Final error: " + error);
+
+        System.out.println("\n-Target result: "+Arrays.toString(expected));
+        System.out.println(" Final result: "+Arrays.toString(this.results[results.length-1]));
     }
 
     /**
@@ -225,24 +241,25 @@ public class NeuronalNetwork {
      * @param expectedOutput expected results of each neuron in each layer
      * @param learningRate rate of changing the weights
      */
-    private void backPropagation(double[] expectedOutput, double learningRate) {
+    public void backPropagation(double[] expectedOutput, double learningRate) {
         double [][] neuronErrors = calcNeuronErrors(expectedOutput);
-
+        initialWeight = weights;
         //Iterate backwards through neurons and adapt weights according to neuron errors
-        for(int i = cells.length-1; i > 0; i--) { //iterate through all layers but input (backwards)
+        for(int i = weights.length-1; i >= 0; i--) { //iterate through all layers but input (backwards)
 
-            for(int j = 0; j < cells[i-1].length; j++) { //iterate through neurons (forward)
+            for(int j = 0; j < weights[i].length; j++) { //iterate through neurons (forward)
 
-                for(int k = 0; k < weights[i-1][j].length; k++) {//iterate trough weights of current neuron
+                for(int k = 0; k < weights[i][j].length; k++) {//iterate trough weights of current neuron
 
-                   // System.out.println("Changing Weight at i-1:"+(i-1)+" j:"+j+" k:"+k);
+                    // System.out.println("Changing Weight at i-1:"+(i-1)+" j:"+j+" k:"+k);
                     //calculate the new Weight value
-                    double deltaWeight = learningRate * results[i-1][j] * neuronErrors[i-1][j];
-                    weights[i-1][j][k] -= deltaWeight;
+              double deltaWeight = learningRate * results[i][j] * neuronErrors[i+1][k];
+                    weights[i][j][k] -= deltaWeight;
                 }
             }
         }
     }
+
 
     /**
      * Calculates the Error Value of each Neuron by using the Derivative on each neuron's output
@@ -256,12 +273,12 @@ public class NeuronalNetwork {
         for (int i = cells.length - 1; i >= 0; i--) {//iterate through all layers but input (backward)
 
             neuronErrors[i] = new double[cells[i].length];//Initialize Array of neuron Errors
-
             for (int j = 0; j < cells[i].length; j++) {//iterate through neurons (forward)
 
                 double neuronError = 0.0;
-                if (i == cells.length - 1)//If layer of Output neuron f'(net) * error
+                if (i == cells.length - 1) {//If layer of Output neuron f'(net) * error
                     neuronError = cells[i][j].getDerivative() * (this.results[i][j] - expectedOutput[j]);
+               }
                 else {//if not output layer f'(net) * sum (Sk Wjk)
                     double sum = 0.0; //Summe (der neuronen fehler * Ausgangs gewichte des momentanen neuron)
                     //iterate through i+1. layer
