@@ -15,7 +15,7 @@ public class UnitTypeFunctions {
     }
 
     public static double derivationLogistic(double x) {
-        return logistic(x) * (1 - logistic(x));
+        return x * (1 - x);
     }
 
     public static double tanh(double x) {
