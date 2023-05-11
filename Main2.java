@@ -20,7 +20,6 @@ public class Main2 {
         nn.setWeights(CSVReader.formatWeightMatrix(data));
 
         System.out.println(nn + "\n");
-        System.out.println(nn.toString2() + "\n");
 
         double[][][] formatted_results = CSVReader.formatResultMatrix(structure, results);
 
@@ -38,7 +37,7 @@ public class Main2 {
 
         nn.train(formatted_results[0][0], formatted_results[0][1]);
 
-        System.out.println(nn.toString2());
+        System.out.println(nn);
 
         double[][] nn_results = new double[formatted_results.length][];
         for(int i = 0; i < nn_results.length; i++) {

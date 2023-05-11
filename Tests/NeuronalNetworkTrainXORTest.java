@@ -26,6 +26,7 @@ public class NeuronalNetworkTrainXORTest {
         nn.setUnitType(2, 0, UnitType.stepfun, -0.7);
         nn.setUnitType(2, 1, UnitType.stepfun, -0.7);
         nn.setUnitType(3, 0, UnitType.stepfun, -0.7);
+        System.out.println(nn);
     }
 
     @Test
