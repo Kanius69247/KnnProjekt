@@ -16,7 +16,6 @@ public class Main2 {
         }
 
         nn.create(structure);
-        System.out.println(nn.toString2() + "\n");
 
         nn.setWeights(CSVReader.formatWeightMatrix(data));
 
