@@ -362,14 +362,17 @@ public class NeuronalNetwork {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("\n##Neuron types\n");
+        result.append("\n##Neuron types\n(Input)\n");
 
         for (int i = 0; i < cells.length; i++) {
+            if(i == cells.length - 1) {
+                result.append("(Output)\n");
+            }
             for (int j = 0; j < cells[i].length; j++) {
-                result.append("Layer:"+i+" neuorn:"+j+" "+cells[i][j].toString());
+                result.append("Layer:"+i+" Neuron:"+j+" "+cells[i][j].toString());
 
                 if(i < cells.length-1)
-                    result.append(" weights: " +Arrays.toString(weights[i][j])+"\n");
+                    result.append(" Weights: " +Arrays.toString(weights[i][j])+"\n");
                 else
                     result.append("\n");
             }
@@ -378,45 +381,5 @@ public class NeuronalNetwork {
         }
 
         return result.toString();
-    }
-
-    public String toString2() {
-        String s = "[(Input)";
-
-        for(int i = 0; i < weights.length; i++) {
-            s += activationString(i) + "\n";
-            s += "[";
-            for(int j = 0; j < weights[i].length; j++) {
-                if(j == weights[i].length - 1 && i == weights.length - 1) {
-                    s += Arrays.toString(weights[i][j]) + "]";
-                    continue;
-                }
-                if(j == weights[i].length - 1) {
-                    s += Arrays.toString(weights[i][j]) + "],\n";
-                    continue;
-                }
-                s += Arrays.toString(weights[i][j]) + ",\n";
-            }
-        }
-
-        s += "\n" + "(Output)" + activationString(weights.length) + "]";
-        return s;
-    }
-
-    private String activationString(int layer) {
-        String s = "";
-
-        for(int i = 0; i < cells[layer].length; i++) {
-            if(i == cells[layer].length - 1 && layer == weights.length) {
-                s += "Layer: " + layer + " Neuron: " + i + " " + cells[layer][i].toString();
-                continue;
-            }
-            if(i == cells[layer].length - 1) {
-                s += "Layer: " + layer + " Bias: " + i + " " + cells[layer][i].toString();
-                continue;
-            }
-            s += "Layer: " + layer + " Neuron: " + i + " " + cells[layer][i].toString() + "||";
-        }
-        return s;
     }
 }
