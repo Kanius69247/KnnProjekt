@@ -51,7 +51,7 @@ public class NeuronalNetworkTrainTrafficLightTest {
         double[] exOut = {trainingData[1][3], trainingData[1][4], trainingData[1][5], trainingData[1][6]}; //Set the expected Output
 
         //do training
-
+        System.out.println(nn.toString2());
         nn.train(in, exOut);
 
         double[] out = nn.compute(in);

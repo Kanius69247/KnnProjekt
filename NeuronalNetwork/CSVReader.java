@@ -105,7 +105,17 @@ public class CSVReader {
         for(int i = 0; i < formatted_weights.length; i++) {
             tmp = new double[(int)data[0][i] + 1][];
             for(int j = 0; j < tmp.length; j++) {
-                if(j == tmp.length - 1) {
+                if(i == formatted_weights.length - 1 && j < tmp.length - 1) {
+                    tmp[j] = csv_weights[weight_index];
+                    weight_index++;
+                    continue;
+                }
+                else if((i == formatted_weights.length - 1 && j == tmp.length - 1)) {
+                    tmp[j] = csv_biases[bias_index];
+                    bias_index++;
+                    break;
+                }
+                else if(j == tmp.length - 1) {
                     tmp[j] = getPlusOneValueArray(csv_biases[bias_index]);
                     bias_index++;
                     break;
@@ -140,16 +150,16 @@ public class CSVReader {
 
     private static double[][] split(int index, double[] array) {
         double[][] splittedArray = new double[2][];
-        double[] first = new double[index];
-        double[] second = new double[array.length - index];
-        for(int i = 0; i < first.length; i++) {
-            first[i] = array[i];
+        double[] input_array = new double[index];
+        double[] output_array = new double[array.length - index];
+        for(int i = 0; i < input_array.length; i++) {
+            input_array[i] = array[i];
         }
-        for(int i = 0; i < second.length; i++) {
-            second[i] = array[i + index];
+        for(int i = 0; i < output_array.length; i++) {
+            output_array[i] = array[i + index];
         }
-        splittedArray[0] = first;
-        splittedArray[1] = second;
+        splittedArray[0] = input_array;
+        splittedArray[1] = output_array;
         return splittedArray;
     }
 

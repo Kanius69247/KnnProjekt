@@ -253,7 +253,7 @@ public class NeuronalNetwork {
 
                     // System.out.println("Changing Weight at i-1:"+(i-1)+" j:"+j+" k:"+k);
                     //calculate the new Weight value
-              double deltaWeight = learningRate * results[i][j] * neuronErrors[i+1][k];
+                    double deltaWeight = learningRate * this.results[i][j] * neuronErrors[i+1][k];
                     weights[i][j][k] -= deltaWeight;
                 }
             }

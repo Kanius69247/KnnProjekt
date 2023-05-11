@@ -16,6 +16,7 @@ public class Main2 {
         }
 
         nn.create(structure);
+        System.out.println(nn.toString2() + "\n");
 
         nn.setWeights(CSVReader.formatWeightMatrix(data));
 
@@ -35,14 +36,14 @@ public class Main2 {
             }
         }
 
-        //nn.train(formatted_results[0][0], formatted_results[0][1]);
+        nn.train(formatted_results[0][0], formatted_results[0][1]);
 
-        //System.out.println(nn.toString2());
+        System.out.println(nn.toString2());
 
         double[][] nn_results = new double[formatted_results.length][];
         for(int i = 0; i < nn_results.length; i++) {
             nn_results[i] = nn.compute(formatted_results[i][0]);
-            System.out.println(Arrays.toString(nn_results[i]));
+            System.out.println("Input: " + Arrays.toString(formatted_results[i][0]) + " Output nn: " + Arrays.toString(nn_results[i]) + " Expected: " + Arrays.toString(formatted_results[i][1]));
         }
 
         //CSVReader.write("Tests/csv/testresults.csv", nn_results);
