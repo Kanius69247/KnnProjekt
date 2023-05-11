@@ -102,10 +102,10 @@ public class Neuron
     {
         String result = "";
 
-        result += "unit: "+ unitType + ", result: "+this.result;
-        if(unitType.toString().equals("stepfun"))
-            result += " ,Threshold " + this.threshold;
-
+        result += "Unit: "+ unitType + ", Result: "+this.result;
+        if(unitType == unitType.stepfun || unitType == unitType.heaviside){
+        result += " ,Threshold " + this.threshold;
+    }
         return result;
 
     }
