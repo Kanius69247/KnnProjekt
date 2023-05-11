@@ -221,6 +221,11 @@ public class NeuronalNetwork {
                 }
             }
 
+            if(error < lastError)
+                learningRate *= 1.1;//Increase Learning rate when error gets lower
+            else if(error > lastError)
+                learningRate *= 0.5;//Decrease Learning when error gets bigger
+
             lastError = error;
             backPropagation(expected, learningRate);
             epoche++;

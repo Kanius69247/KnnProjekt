@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NeuronalNetworkTrainTrafficLightTest {
     private static NeuronalNetwork nn;
@@ -23,9 +22,9 @@ public class NeuronalNetworkTrainTrafficLightTest {
         //Create network with random weights
         //set Input and Expected Output
         //Let network train and change it`s weights on its own till expected output is calculated by nn
-        nn.setUnitType(1,0, UnitType.logistic);
-        nn.setUnitType(1,1, UnitType.logistic);
-        nn.setUnitType(1,2, UnitType.logistic);
+        nn.setUnitType(1,0, UnitType.tanh);
+        nn.setUnitType(1,1, UnitType.tanh);
+        nn.setUnitType(1,2, UnitType.tanh);
 
         trainingData = CSVReader.read("Tests/csv/TrafficLightResults.csv");
     }
