@@ -1,5 +1,6 @@
 package NeuronalNetwork;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.lang.Math;
@@ -16,6 +17,7 @@ public class NeuronalNetwork {
     private double[][] resultsAll;
     private double bias;
     private double biasWeight;
+    private ArrayList<Double> errors = new ArrayList<>();
 
     /**
      * Initializes a new instance of NeuronalNetwork
@@ -210,6 +212,7 @@ public class NeuronalNetwork {
 
             double[] results = compute(input); //Calculate input
             error = computeError(expected, results); //calculate error value (sum of all errors from output)
+            errors.add(error);
 
             double diff = lastError - error;
 
@@ -318,6 +321,14 @@ public class NeuronalNetwork {
             throw new IllegalArgumentException("Layer/Neuron index does not match Network structure!");
 
         cells[layer][neuron].setUnitType(function);
+    }
+
+    /**
+     * Returns the error-values from all training steps in the last training process
+     * @return errors
+     */
+    public ArrayList<Double> getErrors() {
+        return errors;
     }
 
     /**
