@@ -60,28 +60,29 @@ public class NeuronalNetwork {
     private void createRandomWeights(int[] structure) {
         Random rnd = new Random();
         int layers = structure.length;
-        initialWeight = new double[layers - 1][][];
+        this.initialWeight = new double[layers - 1][][];
 
-        for (int i = 0; i < layers - 1; i++) {
+        for (int i = 0; i < layers-1; i++) {
 
-            int neurons = cells[i].length;
-            initialWeight[i] = new double[neurons][];
+            int neurons = this.cells[i].length;
+            this.initialWeight[i] = new double[neurons][];
 
             for (int j = 0; j < neurons; j++) {
 
-                int neuronsNextLayer = cells[i+1].length;
-                initialWeight[i][j] = new double[neuronsNextLayer];
+                //No weights to bias neuron (cells[i+1].length -1;), when next layer is output there is no bias neuron (cells[i+1].length)
+                int neuronsNextLayer = (i == layers-2) ? this.cells[i+1].length : this.cells[i+1].length -1;
+                this.initialWeight[i][j] = new double[neuronsNextLayer];
 
                 for (int k = 0; k < neuronsNextLayer; k++) {
                     if (j == (neurons - 1)) {
-                        initialWeight[i][j][k] = (k < (neuronsNextLayer - 1)) ? 0.0 : biasWeight;
+                        this.initialWeight[i][j][k] = (k < (neuronsNextLayer - 1)) ? 0.0 : this.biasWeight;
                     } else {
-                        initialWeight[i][j][k] = -1 + 2 * rnd.nextDouble();
+                        this.initialWeight[i][j][k] = -1 + 2 * rnd.nextDouble();
                     }
                 }
             }
         }
-        weights = initialWeight;
+        this.weights = this.initialWeight;
     }
 
     /**
@@ -290,7 +291,7 @@ public class NeuronalNetwork {
                 else {//if not output layer f'(net) * sum (Sk Wjk)
                     double sum = 0.0; //Summe (der neuronen fehler * Ausgangs gewichte des momentanen neuron)
                     //iterate through i+1. layer
-                    for (int k = 0; k < cells[i + 1].length; k++) {
+                    for (int k = 0; k < cells[i + 1].length-1; k++) {
                         //sum up NeuronError * weight to neuron
                         sum += neuronErrors[i + 1][k] * weights[i][j][k];
                     }

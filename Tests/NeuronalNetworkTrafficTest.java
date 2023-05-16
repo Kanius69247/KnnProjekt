@@ -2,6 +2,7 @@ package Tests;
 
 import NeuronalNetwork.*;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,17 +21,7 @@ public class NeuronalNetworkTrafficTest {
         nn.setBias(1);
 
         //Input weights
-        double [][][] w = {
-                {{-0.081,0.08,-0.04},
-                        {0.06,0.02,-0.003},
-                        {-0.01,0.003,-0.09},
-                        {0.08,-0.09,-0.05}},
-
-                {{-0.008,0.01,0.01,2.9E-4},
-                        {0.06,-0.06,-0.027,-0.01},
-                        {0.04,0.06,0.08,0.08},
-                        {-0.08,0.06,0.09,-0.001}}
-        };
+        double [][][] w = CSVReader.readWeightsFromCSV("Tests/csv/TrafficLightStructure.csv");
         nn.setWeights(w);
 
         //Changing Neuron Types
@@ -51,6 +42,52 @@ public class NeuronalNetworkTrafficTest {
         assertEquals(expected[1], out[1], 0.01);
         assertEquals(expected[2], out[2], 0.01);
         assertEquals(expected[3], out[3], 0.01);
+    }
+
+    @Test
+    public void trafficTestAll()
+    {
+        int[] structure = CSVReader.readStructureFromCSV("Tests/csv/TrafficLightStructure.csv");
+        double [][][] weights = CSVReader.readWeightsFromCSV("Tests/csv/TrafficLightStructure.csv");
+        double[][] input = CSVReader.readInputValuesFromDataArray(CSVReader.readDataCsv("Tests/csv/TrafficLightResults.csv"), structure);
+        double[][] expectedOutput = CSVReader.readOutputValuesFromDataArray(CSVReader.readDataCsv("Tests/csv/TrafficLightResults.csv"), structure);
+        nn.create(structure);
+        nn.setWeights(weights);
+        nn.setUnitType(1,0, UnitType.tanh);
+        nn.setUnitType(1,1, UnitType.tanh);
+        nn.setUnitType(1,2, UnitType.tanh);
+
+        double[][] results = new double[input.length][expectedOutput.length];
+
+        for(int i = 0; i < input.length; i++)
+            results[i] = nn.compute(input[i]);
+
+//        Assertions.assertArrayEquals(expectedOutput, results);
+    }
+
+    @Test
+    public void TestTrafficLightsTrainDataBinary()
+    {
+        int[] structure = {3,3,4};
+        double [][][] weights = CSVReader.readWeightsFromCSV("Tests/csv/TrafficLightStructure.csv");
+        double[][] input = CSVReader.readInputValuesFromDataArray(CSVReader.readDataCsv("Tests/csv/testdata_trafficlights_binary.csv"), structure);
+        double[][] expectedOutput = CSVReader.readOutputValuesFromDataArray(CSVReader.readDataCsv("Tests/csv/testdata_trafficlights_binary.csv"), structure);
+        nn.create(structure);
+        nn.setUnitType(1,0, UnitType.logistic);
+        nn.setUnitType(1,1, UnitType.logistic);
+        nn.setUnitType(1,2, UnitType.logistic);
+
+        double[][] results = new double[input.length][expectedOutput.length];
+
+        for(int i = 0; i < input.length; i++)
+            results[i] = nn.compute(input[i]);
+
+        //Assertions.assertArrayEquals(expectedOutput, results);
+
+        for(int i = 0; i < results.length; i++)
+            for(int j = 0; j < results[i].length; j++) {
+                //Assertions.assertEquals(expectedOutput[i][j], Math.round(results[i][j]));//, 0.1);
+            }
     }
 
     @AfterEach

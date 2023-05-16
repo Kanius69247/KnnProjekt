@@ -4,11 +4,153 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class CSVReader {
+
+    public static double[][] readDataCsv(String filePath)
+    {
+        double[][] result = new double[0][];
+
+        String line;
+        String csvSplitBy = ";";
+        List<double[]> dataList = new ArrayList<>(); // initialize a list to store the data
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+
+            while ((line = br.readLine()) != null) {
+
+                line = line.replaceAll("\\s+","");
+
+                String[] splits = line.split(csvSplitBy);
+                double[] values = new double[splits.length];
+
+                for (int i = 0; i < splits.length; i++){
+                    values[i] = Double.parseDouble(splits[i]);
+                }
+                dataList.add(values); // add the values to the list
+
+            }
+        } catch (IOException ex) {
+            System.err.println("failed to read data csv, "+ex);
+        }
+
+        result = dataList.toArray(result);
+        return result;
+    }
+
+    public static int[] readStructureFromCSV(String filePath)
+    {
+        int[] result = new int[0];
+
+        String csvSplitBy = ";";
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+
+            //just read first line because there is the structure defined
+            String line = br.readLine();
+            line = line.replaceAll("\\s+", ""); //remove all whitespaces
+            line = line.replace("layers;", ""); //remove "layers;" prefix
+
+            String[] splits = line.split(csvSplitBy);
+            result = new int[splits.length];
+
+            for (int i = 0; i < splits.length; i++) {
+                result[i] = Integer.parseInt(splits[i]);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            System.err.println("failed to read structure from csv, " +ex);
+        }
+
+        return result;
+    }
+
+    public static double[][] readInputValuesFromDataArray(double[][] data, int[] structure)
+    {
+        int inputNeuronCount = structure[0];
+
+        double[][] input = new double[data.length][inputNeuronCount];
+
+        for(int i = 0; i < data.length; i++)
+        {
+            for(int j = 0; j < data[i].length; j++)
+            {
+                if(j < inputNeuronCount)
+                    input[i][j] = data[i][j];
+            }
+        }
+
+        return input;
+    }
+
+    public static double[][] readOutputValuesFromDataArray(double[][] data, int[] structure)
+    {
+        int inputNeuronCount = structure[0];
+        int outputNeuronCount = structure[structure.length-1];
+        double[][] output = new double[data.length][outputNeuronCount];
+
+        for(int i = 0; i < data.length; i++)
+        {
+            for(int j = inputNeuronCount; j < data[i].length; j++)
+            {
+                output[i][j-inputNeuronCount] = data[i][j];
+            }
+        }
+
+        return output;
+    }
+
+    public static double[][][] readWeightsFromCSV(String filePath)
+    {
+        //Skip first line because of structure array
+        double[][][] result;
+        String line;
+        String csvSplitBy = ";";
+        List<List<double[]>> dataList = new ArrayList<>();
+        List<double[]> subList = new ArrayList<>(); // initialize a list to store the data
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            br.readLine();//Ignore first line beacuse it is the layers; line
+            while ((line = br.readLine()) != null) {
+                List<double[]> weightsOfNeurons = new ArrayList<>();
+
+                line = line.replaceAll("\\s+","");
+
+                String[] splits = line.split(csvSplitBy);
+                double[] values = new double[splits.length];
+
+                for (int i = 0; i < splits.length; i++){
+                    values[i] = Double.parseDouble(splits[i]);
+                }
+
+                if(values.length == 0)//Wenn leerzeile neue zwischen Liste für neu array dimension
+                {
+                    dataList.add(subList); // add the values to the list
+                    subList = new ArrayList<>();
+                }
+                else
+                    subList.add(values);
+            }
+            dataList.add(subList);
+        } catch (IOException ex) {
+            System.err.println("failed to read weights csv, "+ex);
+        }
+
+        //Transform List<List<double[]>> to double[][][]
+        result = new double[dataList.size()][][];
+
+        for(int i = 0; i < dataList.size(); i++) {
+            result[i] = new double[dataList.get(i).size()][];
+            result[i] = dataList.get(i).toArray(result[i]);
+        }
+
+        return result;
+    }
 
     /**
      * reading csv file and save it at dataSet
@@ -33,7 +175,6 @@ public class CSVReader {
                 dataList.add(values); // add the values to the list
 
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -174,4 +315,5 @@ public class CSVReader {
         }
         return newData;
     }
+
 }
