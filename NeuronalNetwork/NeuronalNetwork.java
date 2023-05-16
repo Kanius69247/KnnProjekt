@@ -17,7 +17,7 @@ public class NeuronalNetwork {
     private double[][] resultsAll;
     private double bias;
     private double biasWeight;
-    private ArrayList<Double> errors = new ArrayList<>();
+    private ArrayList<Double> errors = new ArrayList<Double>();
 
     /**
      * Initializes a new instance of NeuronalNetwork
@@ -195,6 +195,7 @@ public class NeuronalNetwork {
      * @param expected expected output data
      */
     public void train(double[] input, double[] expected) {
+        errors = new ArrayList<Double>();  //refresh errors list
         double initLearningRate = 0.000001;
         double learningRate = initLearningRate;
         double targetError = 0.00001;
