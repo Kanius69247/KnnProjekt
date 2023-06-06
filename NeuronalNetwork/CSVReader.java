@@ -28,11 +28,16 @@ public class CSVReader {
                 String[] splits = line.split(csvSplitBy);
                 double[] values = new double[splits.length];
 
-                for (int i = 0; i < splits.length; i++){
-                    values[i] = Double.parseDouble(splits[i]);
+                try {
+                    for (int i = 0; i < splits.length; i++) {
+                        values[i] = Double.parseDouble(splits[i]);
+                    }
+                    dataList.add(values); // add the values to the list
                 }
-                dataList.add(values); // add the values to the list
-
+                catch (NumberFormatException ex)
+                {
+                    System.err.println("can't parse line: "+line + " to double ex:" + ex);
+                }
             }
         } catch (IOException ex) {
             System.err.println("failed to read data csv, "+ex);
@@ -188,13 +193,40 @@ public class CSVReader {
         return data;
     }
 
+    public static void writeStructure(String filePath, int[] structure, double[][][] weights) {
+        try {
+            FileWriter writer = new FileWriter(filePath);
+
+            writer.append("layers");
+
+            for(int s : structure)
+                writer.append(s + ";");
+
+            writer.append("\n");
+
+            for (int i = 0; i < weights.length; i++) {
+                for (int j = 0; j < weights[i].length; j++) {
+                    for (int k = 0; k < weights[i][j].length; k++) {
+                        writer.append(weights[i][j][k] + ";");
+                    }
+                    writer.append("\n");
+                }
+                writer.append(";;;\n");
+            }
+
+            writer.close();
+        } catch (IOException ioEx) {
+            System.err.println("Failed to write CSV file to " + filePath);
+        }
+    }
+
     public static void write(String filePath, double[][] data)
     {
         try {
             FileWriter writer = new FileWriter(filePath);
             for (int i = 0; i < data.length; i++) {
                 for(int j = 0; j < data[i].length; j++)
-                    writer.append(data[i][j] + ",");
+                    writer.append(data[i][j] + ";");
 
                 writer.append("\n");
             }
