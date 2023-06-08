@@ -1,5 +1,6 @@
 import NeuronalNetwork.CSVReader;
 import NeuronalNetwork.NeuronalNetwork;
+import NeuronalNetwork.UnitType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +25,7 @@ public class AsteroidTraining {
         //validate();
 
         //Write new weights to csv
+        CSVReader.writeStructure("Tests/csv/asteroidsStructure.csv", structure, nn.getWeights());
     }
 
     private static void setUp()
@@ -35,7 +37,13 @@ public class AsteroidTraining {
         nn = new NeuronalNetwork();
         nn.create(structure);
         //nn.setWeights(weights);
-        initializeTestData(data);
+        initializeDataBatches(data);
+
+        for(int i = 0; i < structure.length-1; i++)
+            for(int j = 0; j < structure[i]; j++)
+                nn.setUnitType(i,j, UnitType.relu);
+
+        nn.setUnitType(3,0,UnitType.sigmoid);
     }
 
     private static void train()
@@ -85,7 +93,7 @@ public class AsteroidTraining {
     /**
      * Sets the trainingData (30%) testData (30%) and validationData (10%)
      */
-    private static void initializeTestData(double[][] data)
+    private static void initializeDataBatches(double[][] data)
     {
         Random random = new Random();
         int third = (data.length/100)*30;

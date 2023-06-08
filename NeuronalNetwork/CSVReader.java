@@ -197,7 +197,7 @@ public class CSVReader {
         try {
             FileWriter writer = new FileWriter(filePath);
 
-            writer.append("layers");
+            writer.append("layers;");
 
             for(int s : structure)
                 writer.append(s + ";");

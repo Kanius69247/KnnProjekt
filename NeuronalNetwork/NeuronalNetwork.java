@@ -23,7 +23,7 @@ public class NeuronalNetwork {
      * Initializes a new instance of NeuronalNetwork
      */
     public NeuronalNetwork() {
-        this.bias =0;
+        this.bias = 0;
         this.biasWeight = 1;
     }
 
@@ -75,7 +75,7 @@ public class NeuronalNetwork {
 
                 for (int k = 0; k < neuronsNextLayer; k++) {
                     if (j == (neurons - 1)) {
-                        this.initialWeight[i][j][k] = (k < (neuronsNextLayer - 1)) ? 0.0 : this.biasWeight;
+                        this.initialWeight[i][j][k] = (k < (neuronsNextLayer - 1)) ? 0.0 : this.biasWeight;//-1 + 2 * rnd.nextDouble();//this.biasWeight;
                     } else {
                         this.initialWeight[i][j][k] = -1 + 2 * rnd.nextDouble();
                     }

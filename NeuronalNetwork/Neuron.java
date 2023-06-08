@@ -42,6 +42,12 @@ public class Neuron
             case stepfun:
                 this.result = UnitTypeFunctions.perceptronStepfun(input, threshold);
                 break;
+            case relu:
+                this.result = UnitTypeFunctions.rectifiedLinearUnit(input);
+                break;
+            case sigmoid:
+                this.result = UnitTypeFunctions.sigmoid(input);
+                break;
         }
 
         return this.result;
@@ -68,6 +74,12 @@ public class Neuron
                 break;
             case stepfun:
                 this.derivative = UnitTypeFunctions.derivationPerceptronStepfun(this.result);
+                break;
+            case relu:
+                this.derivative = UnitTypeFunctions.derivationRectifiedLinearUnit(this.result);
+                break;
+            case sigmoid:
+                this.derivative = UnitTypeFunctions.derivativeSigmoid(this.result);
                 break;
         }
         return this.derivative;

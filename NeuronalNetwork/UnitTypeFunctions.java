@@ -53,4 +53,21 @@ public class UnitTypeFunctions {
         return 0;
     }
 
+    public static double rectifiedLinearUnit(double x)
+    {
+        return x > 0 ? x : 0;
+    }
+
+    public static double derivationRectifiedLinearUnit(double x)
+    {
+        return x > 0 ? 1.0: 0;
+    }
+
+    public static double sigmoid(double x) {
+        return 1.0 / (1 + Math.exp(-1.0 * x));
+    }
+
+    public static double derivativeSigmoid(double x) {
+        return x * (1.0 - x);
+    }
 }

@@ -6,5 +6,6 @@ public enum UnitType {
     stepfun,
     tanh,
     heaviside,
-
+    relu,
+    sigmoid,
 }
