@@ -211,7 +211,9 @@ public class CSVReader {
                     }
                     writer.append("\n");
                 }
-                writer.append(";;;\n");
+
+                if(i < weights.length-1)
+                    writer.append(";;;\n");
             }
 
             writer.close();

@@ -36,7 +36,7 @@ public class AsteroidTraining {
 
         nn = new NeuronalNetwork();
         nn.create(structure);
-        //nn.setWeights(weights);
+        nn.setWeights(weights);
         initializeDataBatches(data);
 
         for(int i = 0; i < structure.length-1; i++)
