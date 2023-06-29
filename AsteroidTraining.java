@@ -68,7 +68,7 @@ public class AsteroidTraining {
             System.out.println("result: av_error: " + result.stream().mapToDouble(x -> x.error).sum() / result.size() + " epochCount: "+result.stream().mapToInt(x -> x.epcho).max());
 
             //Write training result to csv for plotting
-            double[][] dResult = new double[result.size()][2];
+            /*double[][] dResult = new double[result.size()][2];
 
             for(int r = 0; r < result.size(); r++)
             {
@@ -76,7 +76,7 @@ public class AsteroidTraining {
                 dResult[r][1] = result.get(r).error;
             }
 
-            CSVReader.write("AsteroidTrainingResult.csv", dResult);
+            CSVReader.write("AsteroidTrainingResult.csv", dResult);*/
         }
 
         System.out.println("training finished");
@@ -94,7 +94,7 @@ public class AsteroidTraining {
                 System.out.println("-> result: " + result[j] + " expectedOutput: " + expectedOutput[i][j] + " difference: "+ (expectedOutput[i][j] - result[j]));
 
             //Write result to csv for plotting
-            double[][] dResult = new double[result.length][2];
+            /*double[][] dResult = new double[result.length][2];
 
             for(int j = 0; j < result.length; j++)
             {
@@ -102,7 +102,7 @@ public class AsteroidTraining {
                 dResult[j][1] = result[j];
             }
 
-            CSVReader.write("AsteroidTestResult.csv", dResult);
+            CSVReader.write("AsteroidTestResult.csv", dResult);*/
         }
 
         System.out.println("testing finished");
@@ -121,7 +121,7 @@ public class AsteroidTraining {
 
 
             //Write result to csv for plotting
-            double[][] dResult = new double[result.length][2];
+            /*double[][] dResult = new double[result.length][2];
 
             for(int j = 0; j < result.length; j++)
             {
@@ -129,7 +129,7 @@ public class AsteroidTraining {
                 dResult[j][1] = result[j];
             }
 
-            CSVReader.write("AsteroidTestResult.csv", dResult);
+            CSVReader.write("AsteroidTestResult.csv", dResult);*/
         }
 
 
