@@ -51,7 +51,7 @@ public class AsteroidTraining {
             for(int j = 0; j < structure[i]; j++)
                 nn.setUnitType(i,j, UnitType.relu);
 
-        nn.setUnitType(2,0, UnitType.sigmoid);
+        nn.setUnitType(2,0, UnitType.tanh);
     }
 
     private static void train()
