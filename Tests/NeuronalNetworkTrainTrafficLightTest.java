@@ -36,8 +36,10 @@ public class NeuronalNetworkTrainTrafficLightTest {
         double[] exOut = {trainingData[0][3], trainingData[0][4], trainingData[0][5], trainingData[0][6]}; //Set the expected Output
 
         //do training
-
-        nn.train(in, exOut);
+        System.out.println(nn);
+        var result = nn.train(in, exOut, Integer.MAX_VALUE);
+        //for (var r : result)
+            System.out.println("epoche: "+result.get(result.size()-1).epcho + " error: "+result.get(result.size()-1).error);
 
         double[] out = nn.compute(in);
 
@@ -45,7 +47,6 @@ public class NeuronalNetworkTrainTrafficLightTest {
         //assertArrayEquals(exOut, out);//Check calculated value matches expected value
         for(int i = 0; i < out.length; i++)
                 assertEquals(exOut[i], Math.round(out[i]));//, 0.1);
-
     }
 
     @Test
@@ -55,7 +56,9 @@ public class NeuronalNetworkTrainTrafficLightTest {
 
         //do training
         System.out.println(nn);
-        nn.train(in, exOut);
+        var result = nn.train(in, exOut, Integer.MAX_VALUE);
+        //for (var r : result)
+        System.out.println("epoche: "+result.get(result.size()-1).epcho + " error: "+result.get(result.size()-1).error);
 
         double[] out = nn.compute(in);
 

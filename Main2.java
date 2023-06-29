@@ -50,7 +50,7 @@ public class Main2 {
 
         //train the net with one data sample of the result array
         for(int i = 0; i < formatted_results.length - 1; i++) {
-            nn.train(formatted_results[i][0], formatted_results[i][1]);
+            nn.train(formatted_results[i][0], formatted_results[i][1], 200000);
 
         }
         //trained network

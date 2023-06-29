@@ -70,4 +70,8 @@ public class UnitTypeFunctions {
     public static double derivativeSigmoid(double x) {
         return x * (1.0 - x);
     }
+    /*public static double derivativeSigmoid(double x) {
+        double s = Math.log(x);
+        return s * (1 - s);
+    }*/
 }

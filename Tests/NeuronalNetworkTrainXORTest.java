@@ -37,7 +37,7 @@ public class NeuronalNetworkTrainXORTest {
         //do training
 
         //do training
-        nn.train(in, expected);
+        nn.train(in, expected, 200000);
 
         out = nn.compute(in);
 
@@ -53,7 +53,7 @@ public class NeuronalNetworkTrainXORTest {
         double[] out;// = new double[]{0}; //Expected output for 0-0 is 0
 
         //do training
-        nn.train(in, expected);
+        nn.train(in, expected, 200000);
 
         out = nn.compute(in);
 
@@ -67,7 +67,7 @@ public class NeuronalNetworkTrainXORTest {
         double[] expected = {1.0};
 
         //do training
-        nn.train(in, expected);
+        nn.train(in, expected, 200000);
 
         double[] out = nn.compute(in);
 
@@ -81,7 +81,7 @@ public class NeuronalNetworkTrainXORTest {
         double[] expected = new double[]{1.0}; //Expected output for 0-1 is 0
 
         //do training
-        nn.train(in, expected);
+        nn.train(in, expected, 200000);
 
         double[] out = nn.compute(in);
 

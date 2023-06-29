@@ -103,7 +103,8 @@ public class CSVReader {
         {
             for(int j = inputNeuronCount; j < data[i].length; j++)
             {
-                output[i][j-inputNeuronCount] = data[i][j];
+                //output[i][j-inputNeuronCount] = data[i][j];
+                output[i][0] = data[i][j];
             }
         }
 

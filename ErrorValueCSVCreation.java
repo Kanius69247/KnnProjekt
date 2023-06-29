@@ -6,7 +6,7 @@ public class ErrorValueCSVCreation {
     public static void main(String args[]) {
         NeuronalNetwork nn = new NeuronalNetwork();
         nn.create(new int[]{3,3,4});
-        nn.train(new double[]{1.0, 0.0, 0.0}, new double[]{1.0, 0.0, 0.0, 0.0});
+        nn.train(new double[]{1.0, 0.0, 0.0}, new double[]{1.0, 0.0, 0.0, 0.0}, 200000);
         ArrayList<Double> errors = nn.getErrors();
         System.out.println(errors);
 
