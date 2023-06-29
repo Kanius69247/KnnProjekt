@@ -23,13 +23,13 @@ public class AsteroidTraining {
 
         train();
 
-        //test();
+        test();
 
         //validate();
 
         System.out.println(nn);
 
-        writeStructureToCSV();
+        //writeStructureToCSV();
 
         System.out.println("exit!");
     }
@@ -41,7 +41,7 @@ public class AsteroidTraining {
 
         nn = new NeuronalNetwork();
         nn.create(structure);
-        nn.setWeights(weights);
+        //nn.setWeights(weights);
 
         trainingData = CSVReader.readDataCsv("Tests/csv/asteroidsTrainingData.csv");
         testData = CSVReader.readDataCsv("Tests/csv/asteroidsTestData.csv");
@@ -49,9 +49,9 @@ public class AsteroidTraining {
 
         for(int i = 0; i < structure.length-1; i++)
             for(int j = 0; j < structure[i]; j++)
-                nn.setUnitType(i,j, UnitType.relu);
+                nn.setUnitType(i,j, UnitType.tanh);
 
-        nn.setUnitType(2,0, UnitType.tanh);
+        nn.setUnitType(2,0, UnitType.id);
     }
 
     private static void train()
@@ -59,24 +59,29 @@ public class AsteroidTraining {
         System.out.println("start training...");
         double[][] input = CSVReader.readInputValuesFromDataArray(trainingData, structure);
         double[][] expectedOutput = CSVReader.readOutputValuesFromDataArray(trainingData, structure);
-        int trainingEpoche = 20000000;
+        int trainingEpoche = 1000000;
 
-        for(int i = 0; i < 1; i++)
+        for(int i = 0; i < trainingData.length; i++)
         {
             System.out.println("iteration:" +i);
             List<TrainingResult> result = nn.train(input[i],expectedOutput[i], trainingEpoche);
-            System.out.println("result: av_error: " + result.stream().mapToDouble(x -> x.error).sum() / result.size() + " epochCount: "+result.stream().mapToInt(x -> x.epcho).max());
+
+            //for(var r : result)
+              //  System.out.println("error: "+r.error + " epoche: " + r.epcho);
+
+            //System.out.println("result: av_error: " + result.stream().mapToDouble(x -> x.error).sum() / result.size() + " epochCount: "+result.stream().mapToInt(x -> x.epcho).max());
 
             //Write training result to csv for plotting
-            /*double[][] dResult = new double[result.size()][2];
+          /*  if(i == 25000) {
+                double[][] dResult = new double[result.size()][2];
 
-            for(int r = 0; r < result.size(); r++)
-            {
-                dResult[r][0] = result.get(r).epcho;
-                dResult[r][1] = result.get(r).error;
-            }
+                for (int r = 0; r < result.size(); r++) {
+                    dResult[r][0] = result.get(r).epcho;
+                    dResult[r][1] = result.get(r).error;
+                }
 
-            CSVReader.write("AsteroidTrainingResult.csv", dResult);*/
+                CSVReader.write("AsteroidTrainingResult.csv", dResult);
+            }*/
         }
 
         System.out.println("training finished");
@@ -88,22 +93,25 @@ public class AsteroidTraining {
         double[][] input = CSVReader.readInputValuesFromDataArray(testData, structure);
         double[][] expectedOutput = CSVReader.readOutputValuesFromDataArray(testData, structure);
 
-        for(int i = 0; i < testData.length; i++) {
+        double[] results = new double[5000];
+
+        for(int i = 0; i < 5000; i++){//testData.length; i++) {
             double[] result = nn.compute(input[i]);
-            for(int j = 0; j < result.length; j++)
-                System.out.println("-> result: " + result[j] + " expectedOutput: " + expectedOutput[i][j] + " difference: "+ (expectedOutput[i][j] - result[j]));
-
-            //Write result to csv for plotting
-            /*double[][] dResult = new double[result.length][2];
-
-            for(int j = 0; j < result.length; j++)
-            {
-                dResult[j][0] = j;
-                dResult[j][1] = result[j];
-            }
-
-            CSVReader.write("AsteroidTestResult.csv", dResult);*/
+            results[i] = result[0];
+            //for(int j = 0; j < result.length; j++)
+                //System.out.println("-> result: " + result[j] + " expectedOutput: " + expectedOutput[i][j] + " difference: "+ (expectedOutput[i][j] - result[j]));
         }
+
+        //Write result to csv for plotting
+       /* double[][] dResult = new double[results.length][2];
+
+        for(int j = 0; j < results.length; j++)
+        {
+            dResult[j][0] = expectedOutput[j][0];
+            dResult[j][1] = results[j];
+        }
+
+        CSVReader.write("AsteroidTestResult.csv", dResult);*/
 
         System.out.println("testing finished");
     }
@@ -119,7 +127,6 @@ public class AsteroidTraining {
             for(int j = 0; j < result.length; j++)
                 System.out.println("-> result: " + result[j] + " expectedOutput: " + expectedOutput[i][j] + " difference: "+ (expectedOutput[i][j] - result[j]));
 
-
             //Write result to csv for plotting
             /*double[][] dResult = new double[result.length][2];
 
@@ -131,7 +138,6 @@ public class AsteroidTraining {
 
             CSVReader.write("AsteroidTestResult.csv", dResult);*/
         }
-
 
         System.out.println("validation finished");
     }
