@@ -74,13 +74,12 @@ Text BoxDas Programm wurde in zwei Objektklassen eingeteilt. Die der Neuronen un
 
 - [x] Add Neuron, NeuronalNetwork
 - [x] Add Test cases - OR, NAND, XOR
-- [ ] Add Backpropagation
-- [ ] Add Test cases - Backpropagation
-- [ ] Exception control
-    - [ ] Array length
-    - [ ] Input Type
-
-See the [open issues](https://www.notion.so/1abc0cdf4ffc40ac81a3fe7e6d55e035?v=2c6ccbd2c8764624b849df1ac1ab9137&pvs=4) for a full list of proposed tasks.
+- [x] Add Backpropagation
+- [x] Add Test cases - Backpropagation
+- [x] Exception control
+    - [x] Array length
+    - [x] Input Type
+- [x] Test - Nearest Earth Objects
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -95,11 +94,16 @@ Lernen in natürlichen und künstlichen neuronalen Netzen
 Supervisor: Doerthe Vieten
 
 Code written by:
-* Dilara Türk
 * Robin Gerhards
 * Nico Immel
 * Yoo Rim, Gye
 
+Project documented by:
+* Dilara Türk
+* Yoo Rim, Gye
+
+Presentation file:
+https://docs.google.com/presentation/d/1gyKEOLrrW0WFq4hIaLUc0bEA2zntDbAIQKzUklO4E-M/edit?usp=sharing
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -107,7 +111,7 @@ Code written by:
 <!-- CONTACT -->
 ## Contact
 
-Yoo Rim, Gye - [Yoo Rim, Gye](yoo.gye@smail.inf.h-brs.de) - yoo.gye@smail.inf.h-brs.de
+Yoo Rim, Gye - [yoo.gye@smail.inf.h-brs.de](yoo.gye@smail.inf.h-brs.de)
 
 Course Link: [LEA](https://github.com/Kanius69247/KnnProjekt)
 
@@ -117,3 +121,4 @@ Course Link: [LEA](https://github.com/Kanius69247/KnnProjekt)
 <!-- Sources -->
 ### Sources
 Sample csv: https://extendsclass.com/csv-generator.html
+<br> Dataset: https://www.kaggle.com/datasets/sameepvani/nasa-nearest-earth-objects
