@@ -1,7 +1,6 @@
 import NeuronalNetwork.CSVReader;
 import NeuronalNetwork.NeuronalNetwork;
 import NeuronalNetwork.UnitType;
-import NeuronalNetwork.TrainingResult;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,151 +10,191 @@ import java.util.Random;
 public class AsteroidTraining {
     private static NeuronalNetwork nn;
     private static int[] structure;
+
+    private static int[] dataStructure;
     private static double[][] trainingData;
     private static double[][] testData;
     private static double[][] validationData;
 
     public static void main(String[] args)
     {
+
+        System.out.println("Test summery");
+        System.out.println("");
+
         setUp();
-
-        System.out.println(nn);
-
         train();
-
         test();
+        validate();
 
-        //validate();
-
-        System.out.println(nn);
-
-        //writeStructureToCSV();
-
-        System.out.println("exit!");
+        //Write new weights to csv
+        //CSVReader.writeStructure("Tests/csv/asteroidsData.csv", structure, nn.getWeights());
     }
 
     private static void setUp()
     {
-        structure = CSVReader.readStructureFromCSV("Tests/csv/asteroidsStructure.csv");
-        double[][][] weights = CSVReader.readWeightsFromCSV("Tests/csv/asteroidsStructure.csv");
+        //structure = CSVReader.readStructureFromCSV("Tests/csv/asteroidsStructure.csv");
+        //double[][][] weights = CSVReader.readWeightsFromCSV("Tests/csv/asteroidsStructure.csv");
+
+        structure = new int[]{5, 3, 2, 1};
+        dataStructure = new int[]{7, 1};
+        double[][] data = CSVReader.readDataCsv("Tests/csv/asteroidsData.csv");
 
         nn = new NeuronalNetwork();
         nn.create(structure);
         //nn.setWeights(weights);
+        initializeDataBatches(data);
 
-        trainingData = CSVReader.readDataCsv("Tests/csv/asteroidsTrainingData.csv");
-        testData = CSVReader.readDataCsv("Tests/csv/asteroidsTestData.csv");
-        validationData = CSVReader.readDataCsv("Tests/csv/asteroidsValidationData.csv");
+        //nn.setUnitType(0,0, UnitType.relu);
+        //nn.setUnitType(0,1, UnitType.relu);
+        //nn.setUnitType(0,2, UnitType.relu);
+        //nn.setUnitType(0,3, UnitType.relu);
+        //nn.setUnitType(0,4, UnitType.relu);
 
-        for(int i = 0; i < structure.length-1; i++)
-            for(int j = 0; j < structure[i]; j++)
-                nn.setUnitType(i,j, UnitType.tanh);
+        //nn.setUnitType(1,0, UnitType.relu);
+        //nn.setUnitType(1,1, UnitType.relu);
+        //nn.setUnitType(1,2, UnitType.relu);
 
-        nn.setUnitType(2,0, UnitType.id);
+        //nn.setUnitType(2,0, UnitType.relu);
+        //nn.setUnitType(2,1, UnitType.relu);
+
+        nn.setUnitType(3,0, UnitType.relu);
+
+        System.out.println("[NeuronalNetwork initial status]");
+        System.out.println(nn);
+        System.out.println("---------------------------------------------------------------------------------------------");
+        System.out.println("");
+
+
     }
 
     private static void train()
     {
-        System.out.println("start training...");
-        double[][] input = CSVReader.readInputValuesFromDataArray(trainingData, structure);
-        double[][] expectedOutput = CSVReader.readOutputValuesFromDataArray(trainingData, structure);
-        int trainingEpoche = 1000000;
+        System.out.println("[Training]");
 
-        for(int i = 0; i < trainingData.length; i++)
-        {
-            System.out.println("iteration:" +i);
-            List<TrainingResult> result = nn.train(input[i],expectedOutput[i], trainingEpoche);
+        double[][] input = CSVReader.readInputValuesFromDataArray(trainingData, dataStructure);
+        double[][] expectedOutput = CSVReader.readOutputValuesFromDataArray(trainingData, dataStructure);
 
-            //for(var r : result)
-              //  System.out.println("error: "+r.error + " epoche: " + r.epcho);
+        int trainCount = 1; //For case of repetation of train
 
-            //System.out.println("result: av_error: " + result.stream().mapToDouble(x -> x.error).sum() / result.size() + " epochCount: "+result.stream().mapToInt(x -> x.epcho).max());
+        for (int train = 0; train < trainCount; train++) {
+            System.out.println("****** train Nr." + train);
+            for (int i = 0; i < trainingData.length; i++) {
+                double[] in = {input[i][1], input[i][2], input[i][3], input[i][4], input[i][6]};
+                nn.train(in, expectedOutput[i]);
 
-            //Write training result to csv for plotting
-          /*  if(i == 25000) {
-                double[][] dResult = new double[result.size()][2];
+                if (i % 10000 == 0 || i == trainingData.length - 1) {
+                    System.out.print(i + "th Traning with input:" + Arrays.toString(in));
+                    System.out.println(" with Expacted Result: " + Arrays.toString(expectedOutput[i]));
 
-                for (int r = 0; r < result.size(); r++) {
-                    dResult[r][0] = result.get(r).epcho;
-                    dResult[r][1] = result.get(r).error;
                 }
-
-                CSVReader.write("AsteroidTrainingResult.csv", dResult);
-            }*/
+            }
+            System.out.println("");
         }
 
-        System.out.println("training finished");
+
+        System.out.println(">> Notification: " + trainCount + " times traning with "+ trainingData.length +" datas is done!");
+        System.out.println("---------------------------------------------------------------------------------------------");
+        System.out.println("");
     }
 
     private static void test()
     {
-        System.out.println("start testing...");
-        double[][] input = CSVReader.readInputValuesFromDataArray(testData, structure);
-        double[][] expectedOutput = CSVReader.readOutputValuesFromDataArray(testData, structure);
+        System.out.println("[Test Result]");
+        double[][] input = CSVReader.readInputValuesFromDataArray(testData, dataStructure);
+        double[][] expectedOutput = CSVReader.readOutputValuesFromDataArray(testData, dataStructure);
 
-        double[] results = new double[5000];
+        int count = 0;
+        int corr = 0;
+        double targetErrorRate = 0.01;
 
-        for(int i = 0; i < 5000; i++){//testData.length; i++) {
-            double[] result = nn.compute(input[i]);
-            results[i] = result[0];
-            //for(int j = 0; j < result.length; j++)
-                //System.out.println("-> result: " + result[j] + " expectedOutput: " + expectedOutput[i][j] + " difference: "+ (expectedOutput[i][j] - result[j]));
+        for(int i = 0; i < testData.length; i++) {
+
+            double[] in = {input[i][1], input[i][2], input[i][3], input[i][4], input[i][6]};
+            double[] result = nn.compute(in);
+
+            for (int j = 0; j < result.length; j++) {
+                count++;
+                if (Math.abs(expectedOutput[i][j] - result[j]) < targetErrorRate) {
+                    corr++;
+
+                    if(i%10000 == 0)
+                        System.out.print(i + "th test: Pass");
+                    if(i%10000 == 0)
+                        System.out.println("-> expectedOutput: " + expectedOutput[i][j] + " result: " + result[j] +  " difference: "+ (expectedOutput[i][j] - result[j]));
+                }
+                else {
+                    if(i%10000 == 0)
+                        System.out.print(i + "th test: Fail");
+                    if(i%10000 == 0)
+                        System.out.println("-> expectedOutput: " + expectedOutput[i][j] + " result: " + result[j] +  " difference: "+ (expectedOutput[i][j] - result[j]));
+                }
+            }
         }
 
-        //Write result to csv for plotting
-       /* double[][] dResult = new double[results.length][2];
+        double rate = (double)corr/(double)count;
 
-        for(int j = 0; j < results.length; j++)
-        {
-            dResult[j][0] = expectedOutput[j][0];
-            dResult[j][1] = results[j];
-        }
-
-        CSVReader.write("AsteroidTestResult.csv", dResult);*/
-
-        System.out.println("testing finished");
+        System.out.println("");
+        System.out.println(">> Notification: Testing with "+ testData.length +" datas is done!");
+        System.out.println(">> Accuracy: " + rate*100 +"% (" + corr + " out of " + count+")");
+        System.out.println("---------------------------------------------------------------------------------------------");
+        System.out.println("");
     }
 
     private static void validate()
     {
-        System.out.println("start validating...");
-        double[][] input = CSVReader.readInputValuesFromDataArray(validationData, structure);
-        double[][] expectedOutput = CSVReader.readOutputValuesFromDataArray(validationData, structure);
+        System.out.println("[Validation]");
+        double[][] input = CSVReader.readInputValuesFromDataArray(validationData, dataStructure);
+        double[][] expectedOutput = CSVReader.readOutputValuesFromDataArray(validationData, dataStructure);
+
+        int count = 0;
+        int corr = 0;
+        double targetErrorRate = 0.01;
 
         for(int i = 0; i < validationData.length; i++) {
-            double[] result = nn.compute(input[i]);
-            for(int j = 0; j < result.length; j++)
-                System.out.println("-> result: " + result[j] + " expectedOutput: " + expectedOutput[i][j] + " difference: "+ (expectedOutput[i][j] - result[j]));
+            double[] in = {input[i][1], input[i][2], input[i][3], input[i][4], input[i][6]};
+            double[] result = nn.compute(in);
+            for (int j = 0; j < result.length; j++) {
+                count++;
+                if (Math.abs(expectedOutput[i][j] - result[j]) < targetErrorRate) {
+                    corr++;
 
-            //Write result to csv for plotting
-            /*double[][] dResult = new double[result.length][2];
+                    if(i%3000 == 0)
+                        System.out.print(i + "th Validation: Pass");
+                    if(i%3000 == 0)
+                        System.out.println("-> expectedOutput: " + expectedOutput[i][j] + " result: " + result[j] +  " difference: "+ (expectedOutput[i][j] - result[j]));
 
-            for(int j = 0; j < result.length; j++)
-            {
-                dResult[j][0] = j;
-                dResult[j][1] = result[j];
+                } else {
+                    if(i%3000 == 0)
+                        System.out.print(i + "th Validation: Fail");
+                    if(i%3000 == 0)
+                        System.out.println("-> expectedOutput: " + expectedOutput[i][j] + " result: " + result[j] +  " difference: "+ (expectedOutput[i][j] - result[j]));
+                }
             }
-
-            CSVReader.write("AsteroidTestResult.csv", dResult);*/
         }
 
-        System.out.println("validation finished");
-    }
 
-    private static void writeStructureToCSV()
-    {
-        //Write new weights to csv
-        CSVReader.writeStructure("Tests/csv/asteroidsStructure.csv", structure, nn.getWeights());
-        System.out.println("new weights written!");
+        double rate = (double)corr/(double)count;
+
+        System.out.println("");
+
+        System.out.println(">> Notification: Validation with "+ validationData.length +" datas is done!");
+        System.out.println(">> Accuracy: " + rate*100 +"% (" + corr + " out of " + count+")");
+        System.out.println("---------------------------------------------------------------------------------------------");
+        System.out.println("");
+
+        System.out.println("[NeuronalNetwork final status]");
+        System.out.println(nn);
+        System.out.println("---------------------------------------------------------------------------------------------");
+        //System.out.println("");
+
     }
 
     /**
      * Sets the trainingData (30%) testData (30%) and validationData (10%)
      */
-    private static void splitAndWriteDataBatches()
+    private static void initializeDataBatches(double[][] data)
     {
-        double[][] data = CSVReader.readDataCsv("Tests/csv/asteroidsData.csv");
-
         Random random = new Random();
         int third = (data.length/100)*30;
         int tenth = (data.length/100)*10;
@@ -172,8 +211,6 @@ public class AsteroidTraining {
             dataAsList.remove(o);
         }
 
-        CSVReader.write("Tests/csv/asteroidsTrainingData.csv", trainingData);
-
         //testData (30%)
         for(int i = 0; i < third; i++) {
             int rndDataSet = random.nextInt(dataAsList.size());
@@ -182,8 +219,6 @@ public class AsteroidTraining {
             dataAsList.remove(0);
         }
 
-        CSVReader.write("Tests/csv/asteroidsTestData.csv", testData);
-
         //validationData (10%)
         for(int i = 0; i < tenth; i++) {
             int rndDataSet = random.nextInt(dataAsList.size());
@@ -191,7 +226,5 @@ public class AsteroidTraining {
             validationData[i] = o;
             dataAsList.remove(0);
         }
-
-        CSVReader.write("Tests/csv/asteroidsValidationData.csv", validationData);
     }
 }
